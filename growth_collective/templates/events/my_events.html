@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}My Events — Growth Collective{% endblock %}
+
+{% block content %}
+<div class="container page-content">
+  <div class="page-header">
+    <h1>My Events</h1>
+    <a href="{% url 'events:list' %}" class="btn btn--outline">Browse Events</a>
+  </div>
+
+  {% if registrations %}
+    <div class="event-grid">
+      {% for reg in registrations %}
+      <div class="card card--event">
+        <div class="card__header">
+          <span class="badge badge--outline">{{ reg.event.get_event_type_display }}</span>
+          <span class="badge badge--{% if reg.status == 'attended' %}green{% elif reg.status == 'registered' %}blue{% else %}grey{% endif %}">
+            {{ reg.get_status_display }}
+          </span>
+        </div>
+        <h3 class="card__title">{{ reg.event.title }}</h3>
+        <time>{{ reg.event.datetime|date:"l, j F Y" }} at {{ reg.event.datetime|time:"H:i" }}</time>
+        {% if reg.status == 'registered' %}
+          <a href="{% url 'events:cancel' event_id=reg.event.pk %}" class="btn btn--outline btn--sm" style="margin-top: var(--space-3);">Cancel</a>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <p>You haven't registered for any events yet.</p>
+      <a href="{% url 'events:list' %}" class="btn btn--primary">Browse Events</a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

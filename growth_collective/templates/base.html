@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Growth Collective{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}A premium networking and coaching community for ambitious business owners.{% endblock %}">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+  <link rel="stylesheet" href="{% static 'css/tokens.css' %}">
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+  <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components.css' %}">
+  <link rel="stylesheet" href="{% static 'css/utilities.css' %}">
+
+  {% block extra_css %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+
+  {% if user.is_authenticated %}
+    {% include "partials/nav.html" %}
+  {% endif %}
+
+  {% if messages %}
+    <div style="background: var(--cream);">
+      <div class="container" style="padding-top: var(--space-4); padding-bottom: var(--space-4);">
+        {% for message in messages %}
+          {% if 'error' in message.tags %}
+            <div class="alert alert--red" style="border-radius: 6px; margin-bottom: var(--space-2);">{{ message }}</div>
+          {% elif 'warning' in message.tags %}
+            <div class="alert alert--gold" style="border-radius: 6px; margin-bottom: var(--space-2);">{{ message }}</div>
+          {% elif 'success' in message.tags %}
+            <div class="alert alert--green" style="border-radius: 6px; margin-bottom: var(--space-2);">{{ message }}</div>
+          {% else %}
+            <div class="alert alert--gold" style="border-radius: 6px; margin-bottom: var(--space-2);">{{ message }}</div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  {% block footer %}
+    {% if not user.is_authenticated %}
+      {% include "partials/footer.html" %}
+    {% endif %}
+  {% endblock %}
+
+  <script src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2uodhrgzmIiOsZnQNut4F4aw1o4bNHtSWLx" crossorigin="anonymous"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

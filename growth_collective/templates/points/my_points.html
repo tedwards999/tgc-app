@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}My Points — Growth Collective{% endblock %}
+
+{% block content %}
+<div class="container page-content">
+  <div class="page-header">
+    <h1>My Points</h1>
+    <a href="{% url 'points:leaderboard' %}" class="btn btn--outline">Leaderboard</a>
+  </div>
+
+  {% if ranking %}
+  <div class="grid-3" style="margin-bottom: var(--space-8);">
+    <div class="stat-card">
+      <span class="stat-card__number">{{ ranking.total_points }}</span>
+      <span class="stat-card__label">Total Points</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-card__number">{{ ranking.monthly_points }}</span>
+      <span class="stat-card__label">Points This Month</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-card__number stat-card__number--tier">{{ ranking.tier|title }}</span>
+      <span class="stat-card__label">Current Tier</span>
+    </div>
+  </div>
+
+  <!-- Tier progression -->
+  <div class="card" style="margin-bottom: var(--space-8);">
+    <h2 class="card__title">Tier Progression</h2>
+    <div class="tier-progression">
+      {% for tier, threshold in tier_thresholds reversed %}
+      <div class="tier-step {% if ranking.tier == tier %}tier-step--active{% elif ranking.total_points >= threshold %}tier-step--achieved{% endif %}">
+        <span class="tier-step__name">{{ tier|title }}</span>
+        <span class="tier-step__threshold">{{ threshold }}+ pts</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% else %}
+  <div class="card" style="margin-bottom: var(--space-8);">
+    <p>You haven't earned any points yet. Start participating to earn points and unlock your tier!</p>
+  </div>
+  {% endif %}
+
+  <!-- Points history -->
+  <div class="card">
+    <h2 class="card__title">Points History</h2>
+    {% if ledger %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Action</th>
+            <th>Points</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for entry in ledger %}
+          <tr>
+            <td>{{ entry.description|default:entry.action_type }}</td>
+            <td><strong>+{{ entry.points }}</strong></td>
+            <td>{{ entry.created_at|date:"j M Y" }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>No points earned yet.</p>
+    {% endif %}
+  </div>
+
+</div>
+{% endblock %}

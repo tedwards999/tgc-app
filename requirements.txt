@@ -1,0 +1,16 @@
+Django==5.1
+psycopg[binary]==3.2.3
+django-environ==0.11
+django-allauth[mfa]==65.3
+django-htmx==1.21
+django-axes==7.0
+django-ratelimit==4.1
+django-q2==1.7.6
+django-anymail[resend]==12.0
+django-storages[s3]==1.14
+whitenoise==6.8
+gunicorn==23.0
+requests==2.32
+Pillow==11.0
+django-crispy-forms==2.3
+django-extensions==3.2

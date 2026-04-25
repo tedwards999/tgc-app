@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% block title %}Deal Board — Growth Collective{% endblock %}
+
+{% block content %}
+<div style="background: var(--cream); min-height: 100vh;">
+<div class="container page-content">
+
+  <!-- Page header -->
+  <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: var(--space-8); gap: var(--space-4);">
+    <div>
+      <h1 style="font-family: var(--font-serif); color: var(--navy); margin-bottom: 0;">
+        Member <em style="color: var(--gold); font-style: italic;">Deal Board</em>
+      </h1>
+    </div>
+    <a href="{% url 'referrals:submit' %}" class="btn btn--gold" style="white-space: nowrap; display: flex; align-items: center; gap: 6px;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+      </svg>
+      Submit Referral
+    </a>
+  </div>
+
+  <!-- 4-col stat grid -->
+  <div class="stat-grid" style="margin-bottom: var(--space-8);">
+
+    <div class="stat-card">
+      <div class="stat-card__header">
+        <div class="stat-card__icon stat-card__icon--gold">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
+          </svg>
+        </div>
+      </div>
+      <div class="stat-card__value">{{ stats.board_total }}</div>
+      <div class="stat-card__label">Active Opportunities</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-card__header">
+        <div class="stat-card__icon stat-card__icon--navy">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+      </div>
+      <div class="stat-card__value">{{ stats.my_referrals }}</div>
+      <div class="stat-card__label">My Referrals</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-card__header">
+        <div class="stat-card__icon stat-card__icon--gold">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+          </svg>
+        </div>
+      </div>
+      <div class="stat-card__value">{{ stats.successful }}</div>
+      <div class="stat-card__label">Deals Claimed</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-card__header">
+        <div class="stat-card__icon stat-card__icon--navy">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+        </div>
+      </div>
+      <div class="stat-card__value">{{ stats.points_earned|default:0 }}</div>
+      <div class="stat-card__label">Points Earned</div>
+    </div>
+
+  </div>
+
+  <!-- Tab strip + search/filter row -->
+  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-6); gap: var(--space-4); flex-wrap: wrap;">
+
+    <div class="tabs">
+      <a href="?tab=all" class="tab {% if not tab or tab == 'all' %}tab--active{% endif %}">All Deals</a>
+      <a href="?tab=mine" class="tab {% if tab == 'mine' %}tab--active{% endif %}">My Referrals</a>
+      <a href="?tab=claimed" class="tab {% if tab == 'claimed' %}tab--active{% endif %}">Claimed</a>
+    </div>
+
+    <div style="display: flex; gap: var(--space-3); align-items: center;">
+      <input type="search" placeholder="Search deals…"
+             style="font-family: var(--font-sans); font-size: .875rem; color: var(--navy); border: 1px solid var(--gray-light); border-radius: 6px; padding: 6px 12px; background: var(--white); width: 200px;"
+             hx-get="{% url 'referrals:board' %}"
+             hx-target="#deal-feed"
+             hx-trigger="keyup changed delay:400ms"
+             name="q">
+      <select name="industry"
+              onchange="this.form && this.form.submit()"
+              style="font-family: var(--font-sans); font-size: .875rem; color: var(--navy); border: 1px solid var(--gray-light); border-radius: 6px; padding: 6px 12px; background: var(--white); cursor: pointer;">
+        <option value="">All Industries</option>
+        <option value="tech">Technology</option>
+        <option value="finance">Finance</option>
+        <option value="health">Health</option>
+        <option value="retail">Retail</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+
+  </div>
+
+  <!-- Monthly prompt -->
+  {% if prompt %}
+  <div style="background: rgba(212,165,116,.1); border-left: 4px solid var(--gold); border-radius: 6px; padding: var(--space-5); margin-bottom: var(--space-8);">
+    <div style="font-family: var(--font-sans); font-size: .75rem; font-weight: 600; color: var(--gold); text-transform: uppercase; letter-spacing: .05em; margin-bottom: var(--space-2);">
+      This Month's Prompt
+    </div>
+    <p style="font-family: var(--font-sans); color: var(--navy); margin: 0 0 var(--space-4);">{{ prompt.prompt_text }}</p>
+    <a href="{% url 'referrals:submit' %}" class="btn btn--outline btn--sm">Respond with a referral</a>
+  </div>
+  {% endif %}
+
+  <!-- Deal feed (HTMX include) -->
+  <div id="deal-feed">
+    {% include "referrals/partials/deal_feed.html" %}
+  </div>
+
+  <!-- How it works section -->
+  <div style="background: var(--navy); border-radius: 12px; padding: var(--space-10); margin-top: var(--space-12);">
+    <h2 style="font-family: var(--font-serif); color: var(--white); text-align: center; margin-bottom: var(--space-8);">
+      How the Deal Board Works
+    </h2>
+    <div class="grid-3">
+
+      <div style="text-align: center;">
+        <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--gold); color: var(--navy); font-family: var(--font-serif); font-weight: 700; font-size: 1.25rem; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-4);">1</div>
+        <h3 style="font-family: var(--font-serif); color: var(--gold); margin-bottom: var(--space-2);">Submit</h3>
+        <p style="font-family: var(--font-sans); color: rgba(255,255,255,.75); font-size: .875rem; margin: 0;">Post a referral opportunity so other members can see it and express interest.</p>
+      </div>
+
+      <div style="text-align: center;">
+        <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--gold); color: var(--navy); font-family: var(--font-serif); font-weight: 700; font-size: 1.25rem; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-4);">2</div>
+        <h3 style="font-family: var(--font-serif); color: var(--gold); margin-bottom: var(--space-2);">Express Interest</h3>
+        <p style="font-family: var(--font-sans); color: rgba(255,255,255,.75); font-size: .875rem; margin: 0;">Browse the board, find a relevant lead and let the poster know you want to claim it.</p>
+      </div>
+
+      <div style="text-align: center;">
+        <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--gold); color: var(--navy); font-family: var(--font-serif); font-weight: 700; font-size: 1.25rem; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-4);">3</div>
+        <h3 style="font-family: var(--font-serif); color: var(--gold); margin-bottom: var(--space-2);">Close Deals</h3>
+        <p style="font-family: var(--font-sans); color: rgba(255,255,255,.75); font-size: .875rem; margin: 0;">Connect, close the deal, and both parties earn points towards their ranking.</p>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,432 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Growth Collective — Where Serious Business Owners Grow & Succeed{% endblock %}
+{% block body_class %}landing{% endblock %}
+
+{% block content %}
+
+<!-- Public nav -->
+<header class="landing-nav">
+  <div class="container">
+    <div class="landing-nav__inner">
+      <a href="{% url 'core:landing' %}" class="landing-nav__logo">Growth <em>Collective</em></a>
+      <nav class="landing-nav__links">
+        <a href="#features">Features</a>
+        <a href="#benefits">Benefits</a>
+        <a href="#pricing">Pricing</a>
+      </nav>
+      <div class="landing-nav__actions">
+        <a href="{% url 'account_login' %}" class="btn btn--outline-white btn--sm">Sign in</a>
+        <a href="{% url 'account_signup' %}" class="btn btn--gold btn--sm">Join now</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="lp-hero">
+  <div class="lp-hero__blob lp-hero__blob--1"></div>
+  <div class="lp-hero__blob lp-hero__blob--2"></div>
+  <div class="container">
+    <div class="lp-hero__inner">
+      <p class="lp-hero__eyebrow">UK's Premier Business Network</p>
+      <h1 class="lp-hero__headline">Where Serious Business Owners Get Expert Support, Grow &amp; Succeed.</h1>
+      <p class="lp-hero__sub">Join our exclusive community of ambitious business owners. Get access to expert coaching, warm referrals, exclusive member benefits, and a network that genuinely wants you to succeed.</p>
+      <div class="lp-hero__actions">
+        <a href="{% url 'account_signup' %}" class="btn btn--gold btn--lg">Join The Growth Collective</a>
+        <a href="#pricing" class="btn btn--outline-white btn--lg">Explore Membership</a>
+      </div>
+    </div>
+  </div>
+  <div class="gold-line"></div>
+</section>
+
+<!-- Stats bar -->
+<section class="lp-stats">
+  <div class="container">
+    <div class="lp-stats__grid">
+      <div class="lp-stats__item">
+        <span class="lp-stats__number">500+</span>
+        <span class="lp-stats__label">Active Members</span>
+      </div>
+      <div class="lp-stats__item">
+        <span class="lp-stats__number">£50M+</span>
+        <span class="lp-stats__label">Business Generated</span>
+      </div>
+      <div class="lp-stats__item">
+        <span class="lp-stats__number">96%</span>
+        <span class="lp-stats__label">Satisfaction Rate</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Professional Excellence -->
+<section class="lp-excellence">
+  <div class="container">
+    <div class="lp-excellence__grid">
+      <div class="lp-excellence__image">
+        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80" alt="Business professionals collaborating">
+      </div>
+      <div class="lp-excellence__content">
+        <p class="lp-eyebrow">Professional Excellence</p>
+        <h2 class="lp-excellence__title">Built for the Serious Business Owner</h2>
+        <p class="lp-excellence__body">Growth Collective brings together the UK's most ambitious business owners. Whether you're scaling a startup or growing an established enterprise, our community gives you the expert support, resources, and connections you need to reach the next level.</p>
+        <ul class="lp-excellence__list">
+          <li>Expert-led coaching tailored to your goals</li>
+          <li>Warm introductions within our trusted network</li>
+          <li>Exclusive resources and member-only benefits</li>
+          <li>A community that holds you accountable</li>
+        </ul>
+        <a href="{% url 'account_signup' %}" class="btn btn--primary">Discover more</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UK Membership Privileges -->
+<section class="lp-features section--dark" id="features">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-header__eyebrow">UK Membership Privileges</p>
+      <h2 class="section-header__title">Everything You Need to Grow Your Business</h2>
+      <p class="section-header__body">From expert coaching to warm referrals and exclusive tools — your membership puts everything in one place.</p>
+    </div>
+    <div class="lp-features__grid">
+      <div class="lp-feature-card">
+        <div class="lp-feature-card__icon">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>1:1 Expert Coaching</h3>
+        <p>Book sessions with vetted business coaches who understand your industry and goals.</p>
+      </div>
+      <div class="lp-feature-card">
+        <div class="lp-feature-card__icon">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </div>
+        <h3>Live Events &amp; Training</h3>
+        <p>Attend exclusive webinars, workshops, and training sessions run by industry experts.</p>
+      </div>
+      <div class="lp-feature-card">
+        <div class="lp-feature-card__icon">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+        </div>
+        <h3>Warm Referral Network</h3>
+        <p>Share and discover warm business introductions through our trusted Deal Board.</p>
+      </div>
+      <div class="lp-feature-card">
+        <div class="lp-feature-card__icon">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+        </div>
+        <h3>Exclusive Member Offers</h3>
+        <p>Access discounts on tools and services negotiated exclusively for Growth Collective members.</p>
+      </div>
+      <div class="lp-feature-card">
+        <div class="lp-feature-card__icon">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <h3>Points &amp; Rankings</h3>
+        <p>Earn points for contributions. Rise through Bronze, Silver, Gold, and Elite tiers.</p>
+      </div>
+      <div class="lp-feature-card">
+        <div class="lp-feature-card__icon">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+        </div>
+        <h3>Brand Resources</h3>
+        <p>Download professional templates, brand assets, and business tools for your company.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- What Members Get Access To -->
+<section class="lp-access section--dark-alt">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-header__eyebrow">Member Resources</p>
+      <h2 class="section-header__title">What Members Get Access To</h2>
+    </div>
+    <div class="lp-access__grid">
+      <div class="lp-access__item">
+        <div class="lp-access__icon">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+        </div>
+        <h3>Coaching Sessions</h3>
+        <p>Monthly 1:1 sessions with a dedicated business coach.</p>
+      </div>
+      <div class="lp-access__item">
+        <div class="lp-access__icon">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <h3>Premium Events</h3>
+        <p>Exclusive access to member-only webinars and training.</p>
+      </div>
+      <div class="lp-access__item">
+        <div class="lp-access__icon">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <h3>Deal Board</h3>
+        <p>Warm referrals and business introductions within our network.</p>
+      </div>
+      <div class="lp-access__item">
+        <div class="lp-access__icon">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <h3>Brand Assets</h3>
+        <p>Professional templates and resources for your business.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Core Values -->
+<section class="lp-values section--dark">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-header__eyebrow">Our Foundation</p>
+      <h2 class="section-header__title">Core Values We Live By</h2>
+    </div>
+    <div class="lp-values__grid">
+      <div class="lp-value-card">
+        <div class="lp-value-card__circle">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3>Trust &amp; Integrity</h3>
+        <p>Every member is vetted. We maintain the highest standards of professional conduct.</p>
+      </div>
+      <div class="lp-value-card">
+        <div class="lp-value-card__circle">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
+        </div>
+        <h3>Genuine Growth</h3>
+        <p>We're here to help you build something meaningful, not just network for the sake of it.</p>
+      </div>
+      <div class="lp-value-card">
+        <div class="lp-value-card__circle">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>Community First</h3>
+        <p>Our members support each other. Collaboration is baked into everything we do.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Membership Benefits -->
+<section class="lp-benefits" id="benefits">
+  <div class="container">
+    <div class="section-header" style="color: var(--navy);">
+      <p class="lp-eyebrow">Member Advantages</p>
+      <h2 style="font-family: var(--font-serif); font-size: 2.25rem; color: var(--navy); margin-bottom: var(--space-4);">Membership Benefits</h2>
+      <p style="color: var(--gray); font-size: 1.0625rem; max-width: 42rem; margin: 0 auto;">Everything you need to grow, connect, and succeed as a business owner in the UK.</p>
+    </div>
+    <div class="lp-benefits__grid">
+      <div class="lp-benefit-box">
+        <h3>Expert Coaching</h3>
+        <ul class="lp-benefit-list">
+          <li>Monthly 1:1 sessions with a vetted coach</li>
+          <li>Goal-setting and accountability check-ins</li>
+          <li>Industry-specific strategic guidance</li>
+          <li>Session notes and action plans provided</li>
+        </ul>
+      </div>
+      <div class="lp-benefit-box">
+        <h3>Community &amp; Network</h3>
+        <ul class="lp-benefit-list">
+          <li>Access to the warm referral Deal Board</li>
+          <li>Introductions to vetted business owners</li>
+          <li>Monthly networking events and mixers</li>
+          <li>Peer accountability groups</li>
+        </ul>
+      </div>
+      <div class="lp-benefit-box">
+        <h3>Learning &amp; Events</h3>
+        <ul class="lp-benefit-list">
+          <li>Exclusive member-only webinars</li>
+          <li>Practical workshops and training sessions</li>
+          <li>On-demand recordings library</li>
+          <li>Guest speakers from leading businesses</li>
+        </ul>
+      </div>
+      <div class="lp-benefit-box">
+        <h3>Tools &amp; Resources</h3>
+        <ul class="lp-benefit-list">
+          <li>Professional brand asset library</li>
+          <li>Member-exclusive partner discounts</li>
+          <li>Business templates and frameworks</li>
+          <li>Points rewards for active participation</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section class="lp-pricing section--dark" id="pricing">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-header__eyebrow">Investment in Your Success</p>
+      <h2 class="section-header__title">Choose Your Membership</h2>
+      <p class="section-header__body">Transparent pricing. Cancel anytime. Start growing from day one.</p>
+    </div>
+    <div class="lp-pricing__grid">
+
+      <div class="pricing-card">
+        <div class="pricing-card__name">Foundation</div>
+        <div class="pricing-card__tagline">Perfect for getting started</div>
+        <div class="pricing-card__price">
+          <span class="pricing-card__amount">£29.99</span>
+          <span class="pricing-card__period">/month</span>
+        </div>
+        <ul class="pricing-card__features">
+          <li class="pricing-card__feature">
+            <svg class="pricing-card__check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+            Access to the Deal Board
+          </li>
+          <li class="pricing-card__feature">
+            <svg class="pricing-card__check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+            Free webinars and events
+          </li>
+          <li class="pricing-card__feature">
+            <svg class="pricing-card__check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+            Community access
+          </li>
+          <li class="pricing-card__feature">
+            <svg class="pricing-card__check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+            Basic brand resources
+          </li>
+          <li class="pricing-card__feature">
+            <svg class="pricing-card__check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+            Points and rewards
+          </li>
+        </ul>
+        <a href="{% url 'account_signup' %}" class="btn btn--outline-white btn--full">Get started</a>
+      </div>
+
+      <div class="pricing-card pricing-card--popular">
+        <div class="pricing-card__popular">Most Popular</div>
+        <div class="pricing-card__name">Executive</div>
+        <div class="pricing-card__tagline">For serious growth</div>
+        <div class="pricing-card__price">
+          <span class="pricing-card__amount">£34.99</span>
+          <span class="pricing-card__period">/month</span>
+        </div>
+        <ul class="pricing-card__features">
+          <li class="pricing-card__feature">
+            <svg class="pricing-card__check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+            Everything in Foundation
+          </li>
+          <li class="pricing-card__feature">
+            <svg class="pricing-card__check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+            1 coaching session per month
+          </li>
+          <li class="pricing-card__feature">
+            <svg class="pricing-card__check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+            Premium events and training
+          </li>
+          <li class="pricing-card__feature">
+            <svg class="pricing-card__check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+            Full brand asset library
+          </li>
+          <li class="pricing-card__feature">
+            <svg class="pricing-card__check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+            Exclusive member offers
+          </li>
+        </ul>
+        <a href="{% url 'billing:pricing' %}" class="btn btn--gold btn--full">Start Executive plan</a>
+      </div>
+
+      <div class="pricing-card">
+        <div class="pricing-card__name">Elite</div>
+        <div class="pricing-card__tagline">Maximum results</div>
+        <div class="pricing-card__price">
+          <span class="pricing-card__amount">£49.99</span>
+          <span class="pricing-card__period">/month</span>
+        </div>
+        <ul class="pricing-card__features">
+          <li class="pricing-card__feature">
+            <svg class="pricing-card__check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+            Everything in Executive
+          </li>
+          <li class="pricing-card__feature">
+            <svg class="pricing-card__check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+            2 coaching sessions per month
+          </li>
+          <li class="pricing-card__feature">
+            <svg class="pricing-card__check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+            Priority deal board access
+          </li>
+          <li class="pricing-card__feature">
+            <svg class="pricing-card__check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+            Dedicated account manager
+          </li>
+          <li class="pricing-card__feature">
+            <svg class="pricing-card__check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+            Founders' inner circle access
+          </li>
+        </ul>
+        <a href="{% url 'billing:pricing' %}" class="btn btn--outline-white btn--full">Start Elite plan</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="lp-testimonials">
+  <div class="container">
+    <div class="section-header" style="color: var(--navy);">
+      <p class="lp-eyebrow">Member Stories</p>
+      <h2 style="font-family: var(--font-serif); font-size: 2.25rem; color: var(--navy); margin-bottom: var(--space-4);">What Our Members Say</h2>
+    </div>
+    <div class="lp-testimonials__grid">
+      <div class="testimonial-card">
+        <p class="testimonial-card__quote">"The coaching sessions alone are worth every penny. My coach helped me close a £50k contract I would have fumbled otherwise. The ROI is remarkable."</p>
+        <div class="testimonial-card__author">
+          <div class="testimonial-card__avatar">SC</div>
+          <div>
+            <div class="testimonial-card__name">Sarah Chen</div>
+            <div class="testimonial-card__title">Founder, TechStart UK</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <p class="testimonial-card__quote">"I've made three meaningful business connections through the Deal Board in my first month. This community genuinely wants to help each other succeed."</p>
+        <div class="testimonial-card__author">
+          <div class="testimonial-card__avatar">MO</div>
+          <div>
+            <div class="testimonial-card__name">Marcus O'Brien</div>
+            <div class="testimonial-card__title">CEO, Meridian Consulting</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <p class="testimonial-card__quote">"The member offers save me more than the membership cost each month. The Collective is a no-brainer investment for any serious business owner."</p>
+        <div class="testimonial-card__author">
+          <div class="testimonial-card__avatar">LP</div>
+          <div>
+            <div class="testimonial-card__name">Laura Parsons</div>
+            <div class="testimonial-card__title">MD, Bright Future Agency</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section class="lp-cta">
+  <div class="container">
+    <p class="lp-eyebrow" style="color: var(--gold-dark);">Join Today</p>
+    <h2 class="lp-cta__title">Ready to Grow Your Business?</h2>
+    <p class="lp-cta__sub">Join hundreds of ambitious business owners already in the Collective. Your next breakthrough connection is waiting.</p>
+    <a href="{% url 'account_signup' %}" class="btn btn--primary btn--lg">Join The Growth Collective</a>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block footer %}
+  {% include "partials/footer.html" %}
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load form_tags %}
+{% block title %}Manage Email — Growth Collective{% endblock %}
+{% block body_class %}auth-page{% endblock %}
+
+{% block content %}
+<div class="auth-layout">
+  <div class="auth-card">
+    <div class="auth-card__brand">
+      <a href="{% url 'core:landing' %}" class="auth-card__logo">Growth <em>Collective</em></a>
+    </div>
+    <h1 class="auth-card__title">Email Addresses</h1>
+
+    {% if emailaddresses %}
+      <div style="margin-bottom: var(--space-6);">
+        {% for emailaddress in emailaddresses %}
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: var(--space-3) 0; border-bottom: 1px solid var(--border);">
+            <div>
+              <span>{{ emailaddress.email }}</span>
+              {% if emailaddress.primary %}<span class="badge badge--gold" style="margin-left: var(--space-2);">Primary</span>{% endif %}
+              {% if emailaddress.verified %}<span class="badge badge--green" style="margin-left: var(--space-2);">Verified</span>{% else %}<span class="badge" style="margin-left: var(--space-2);">Unverified</span>{% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <h2 style="font-size: 1rem; font-weight: 600; margin-bottom: var(--space-4);">Add Email Address</h2>
+    <form method="post" action="{% url 'account_email' %}">
+      {% csrf_token %}
+      <input type="hidden" name="action_add" value="">
+      <div class="form-group">
+        <label class="form-label" for="{{ add_email_form.email.id_for_label }}">New Email</label>
+        {{ add_email_form.email|add_class:"form-input" }}
+        {% for error in add_email_form.email.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn--primary btn--full">Add Email</button>
+      </div>
+    </form>
+
+    <div class="auth-card__links">
+      <a href="{% url 'accounts:account_settings' %}">Back to settings</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block footer %}{% endblock %}

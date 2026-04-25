@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% load form_tags %}
+{% block title %}Post a Referral — Growth Collective{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 720px; padding: var(--space-10) var(--space-4);">
+
+  <div style="margin-bottom: var(--space-8);">
+    <p class="lp-eyebrow">Deal Board</p>
+    <h1 class="section-title">Post a <em>Referral</em></h1>
+    <p class="section-sub">Share a business opportunity with the community. Earn 10 points on submission and 20 more if it leads to a successful deal.</p>
+  </div>
+
+  <div class="card" style="padding: var(--space-8);">
+    <form method="post" novalidate>
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+          <div class="alert alert--error" style="margin-bottom: var(--space-4);">{{ error }}</div>
+        {% endfor %}
+      {% endif %}
+
+      <!-- Referral type -->
+      <div class="form-group {% if form.referral_type.errors %}form-group--error{% endif %}" style="margin-bottom: var(--space-6);">
+        <label class="form-label">Referral Type</label>
+        <div style="display: flex; gap: var(--space-6); margin-top: var(--space-2);">
+          {% for choice in form.referral_type %}
+            <label style="display: flex; align-items: center; gap: var(--space-2); font-family: var(--font-sans); font-size: .875rem; color: var(--navy); cursor: pointer;">
+              {{ choice.tag }} {{ choice.choice_label }}
+            </label>
+          {% endfor %}
+        </div>
+        {% for error in form.referral_type.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
+      </div>
+
+      <div class="form-grid">
+
+        <div class="form-group {% if form.title.errors %}form-group--error{% endif %}" style="grid-column: 1 / -1;">
+          <label class="form-label" for="{{ form.title.id_for_label }}">Opportunity Title</label>
+          {{ form.title|add_class:"form-input" }}
+          {% for error in form.title.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
+        </div>
+
+        <div class="form-group {% if form.description.errors %}form-group--error{% endif %}" style="grid-column: 1 / -1;">
+          <label class="form-label" for="{{ form.description.id_for_label }}">Description</label>
+          <span class="form-hint">Describe the opportunity so members can judge if it's a fit.</span>
+          {{ form.description|add_class:"form-input" }}
+          {% for error in form.description.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
+        </div>
+
+        <div class="form-group {% if form.industry.errors %}form-group--error{% endif %}">
+          <label class="form-label" for="{{ form.industry.id_for_label }}">Industry</label>
+          {{ form.industry|add_class:"form-input" }}
+          {% for error in form.industry.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
+        </div>
+
+        <div class="form-group {% if form.value_estimate.errors %}form-group--error{% endif %}">
+          <label class="form-label" for="{{ form.value_estimate.id_for_label }}">Estimated Value <span style="color: var(--text-muted);">(optional)</span></label>
+          {{ form.value_estimate|add_class:"form-input" }}
+          {% for error in form.value_estimate.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
+        </div>
+
+      </div>
+
+      <!-- External referral fields -->
+      <div id="external-fields">
+        <hr style="border: none; border-top: 1px solid var(--border); margin: var(--space-6) 0;">
+        <h3 style="font-size: 1rem; font-weight: 600; margin-bottom: var(--space-4);">Contact Details</h3>
+        <div class="form-grid">
+
+          <div class="form-group {% if form.contact_name.errors %}form-group--error{% endif %}">
+            <label class="form-label" for="{{ form.contact_name.id_for_label }}">Contact Name</label>
+            {{ form.contact_name|add_class:"form-input" }}
+            {% for error in form.contact_name.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
+          </div>
+
+          <div class="form-group {% if form.contact_email.errors %}form-group--error{% endif %}">
+            <label class="form-label" for="{{ form.contact_email.id_for_label }}">Contact Email</label>
+            {{ form.contact_email|add_class:"form-input" }}
+            {% for error in form.contact_email.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
+          </div>
+
+          <div class="form-group {% if form.contact_company.errors %}form-group--error{% endif %}">
+            <label class="form-label" for="{{ form.contact_company.id_for_label }}">Company <span style="color: var(--text-muted);">(optional)</span></label>
+            {{ form.contact_company|add_class:"form-input" }}
+            {% for error in form.contact_company.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
+          </div>
+
+        </div>
+      </div>
+
+      <div class="form-actions" style="margin-top: var(--space-6); display: flex; gap: var(--space-3);">
+        <button type="submit" class="btn btn--gold">Post Referral</button>
+        <a href="{% url 'referrals:board' %}" class="btn btn--outline">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var radios = document.querySelectorAll('input[name="referral_type"]');
+    var externalFields = document.getElementById('external-fields');
+
+    function toggle() {
+      var val = document.querySelector('input[name="referral_type"]:checked');
+      if (!val || !externalFields) return;
+      externalFields.style.display = val.value === 'external' ? '' : 'none';
+    }
+
+    radios.forEach(function (r) { r.addEventListener('change', toggle); });
+    toggle();
+  })();
+</script>
+{% endblock %}

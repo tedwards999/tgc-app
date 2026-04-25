@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Billing — Growth Collective{% endblock %}
+
+{% block content %}
+<div class="container page-content">
+  <div class="page-header">
+    <h1>Billing</h1>
+  </div>
+
+  <div class="billing-grid">
+
+    <!-- Subscription status -->
+    <div class="card">
+      <h2 class="card__title">Current Plan</h2>
+      {% if subscription %}
+        <div class="subscription-status">
+          <p><strong>{{ request.user.get_subscription_type_display }}</strong></p>
+          <span class="badge badge--{% if subscription.status == 'active' %}green{% elif subscription.status == 'past_due' %}orange{% else %}grey{% endif %}">
+            {{ subscription.get_status_display }}
+          </span>
+          {% if subscription.current_period_end %}
+            <p class="subscription-status__renewal">
+              {% if subscription.status == 'cancelling' %}
+                Access until {{ subscription.current_period_end|date:"j F Y" }}
+              {% else %}
+                Renews {{ subscription.current_period_end|date:"j F Y" }}
+              {% endif %}
+            </p>
+          {% endif %}
+        </div>
+        {% if subscription.status == 'active' %}
+          <form method="post" action="{% url 'billing:cancel' %}" onsubmit="return confirm('Cancel your subscription? You will keep access until the end of the billing period.')">
+            {% csrf_token %}
+            <button type="submit" class="btn btn--outline btn--sm" style="margin-top: var(--space-4);">Cancel Subscription</button>
+          </form>
+        {% endif %}
+      {% else %}
+        <p>You are currently on the free plan.</p>
+        <a href="{% url 'billing:pricing' %}" class="btn btn--gold">Upgrade to Premium</a>
+      {% endif %}
+    </div>
+
+    <!-- Payment history -->
+    <div class="card">
+      <h2 class="card__title">Payment History</h2>
+      {% if payments %}
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Amount</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for payment in payments %}
+            <tr>
+              <td>{{ payment.created_at|date:"j M Y" }}</td>
+              <td>£{{ payment.amount }}</td>
+              <td><span class="badge badge--{% if payment.status == 'completed' %}green{% else %}orange{% endif %}">{{ payment.get_status_display }}</span></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p>No payment history yet.</p>
+      {% endif %}
+    </div>
+
+  </div>
+</div>
+{% endblock %}

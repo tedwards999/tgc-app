@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Express Interest — Growth Collective{% endblock %}
+
+{% block content %}
+<div class="container page-content">
+  <a href="{% url 'referrals:board' %}" class="back-link">← Deal Board</a>
+  <div class="form-layout">
+    <h1>Express Interest</h1>
+    <div class="card" style="margin-bottom: var(--space-6);">
+      <h2 class="card__title">{{ referral.title }}</h2>
+      <p>{{ referral.description }}</p>
+      {% if referral.value_estimate %}
+        <p><strong>Value estimate:</strong> {{ referral.value_estimate }}</p>
+      {% endif %}
+    </div>
+
+    <form method="post" class="form">
+      {% csrf_token %}
+      <div class="form-group {% if form.message.errors %}form-group--error{% endif %}">
+        <label class="form-label" for="{{ form.message.id_for_label }}">{{ form.message.label }}</label>
+        {{ form.message }}
+        {% for error in form.message.errors %}
+          <span class="form-error">{{ error }}</span>
+        {% endfor %}
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn--primary">Send Interest</button>
+        <a href="{% url 'referrals:board' %}" class="btn btn--outline">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

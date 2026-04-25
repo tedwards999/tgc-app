@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}Account Settings — Growth Collective{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 760px; padding: var(--space-10) var(--space-4);">
+
+  <div style="margin-bottom: var(--space-8);">
+    <h1 class="section-title">Account <em>Settings</em></h1>
+    <p class="section-sub">Manage your login details, subscription, and referral link.</p>
+  </div>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert--{{ message.tags }}" style="margin-bottom: var(--space-4);">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <!-- Email -->
+  <div class="card" style="margin-bottom: var(--space-4); padding: var(--space-6);">
+    <div style="display: flex; justify-content: space-between; align-items: center; gap: var(--space-4);">
+      <div>
+        <h2 style="font-size: 1rem; font-weight: 600; margin: 0 0 4px;">Email Address</h2>
+        <p style="margin: 0; color: var(--text-muted);">{{ request.user.email }}</p>
+      </div>
+      <a href="{% url 'account_email' %}" class="btn btn--outline btn--sm" style="flex-shrink: 0;">Manage Email</a>
+    </div>
+  </div>
+
+  <!-- Password -->
+  <div class="card" style="margin-bottom: var(--space-4); padding: var(--space-6);">
+    <div style="display: flex; justify-content: space-between; align-items: center; gap: var(--space-4);">
+      <div>
+        <h2 style="font-size: 1rem; font-weight: 600; margin: 0 0 4px;">Password</h2>
+        <p style="margin: 0; color: var(--text-muted);">Change your account password.</p>
+      </div>
+      <a href="{% url 'account_change_password' %}" class="btn btn--outline btn--sm" style="flex-shrink: 0;">Change Password</a>
+    </div>
+  </div>
+
+  <!-- Subscription -->
+  <div class="card" style="margin-bottom: var(--space-4); padding: var(--space-6);">
+    <div style="display: flex; justify-content: space-between; align-items: center; gap: var(--space-4);">
+      <div>
+        <h2 style="font-size: 1rem; font-weight: 600; margin: 0 0 4px;">Subscription</h2>
+        <p style="margin: 0; color: var(--text-muted);">
+          Plan: <strong style="color: var(--navy);">{{ request.user.get_subscription_type_display }}</strong>
+          &nbsp;·&nbsp;
+          Status: <strong style="color: var(--navy);">{{ request.user.subscription_status|title }}</strong>
+        </p>
+      </div>
+      <a href="{% url 'billing:dashboard' %}" class="btn btn--outline btn--sm" style="flex-shrink: 0;">Manage Billing</a>
+    </div>
+  </div>
+
+  <!-- Referral link -->
+  <div class="card" style="margin-bottom: var(--space-4); padding: var(--space-6); border-left: 3px solid var(--gold);">
+    <h2 style="font-size: 1rem; font-weight: 600; margin: 0 0 4px;">Your Referral Link</h2>
+    <p style="margin: 0 0 var(--space-3); color: var(--text-muted);">
+      Share this link to invite new members. You earn points when someone signs up and again when they become a paid member.
+    </p>
+    <div style="display: flex; gap: var(--space-2); align-items: center;">
+      <input
+        id="referral-url"
+        type="text"
+        class="form-input"
+        value="{{ referral_url }}"
+        readonly
+        style="flex: 1; background: var(--cream); cursor: default;"
+      >
+      <button
+        type="button"
+        class="btn btn--outline btn--sm"
+        onclick="navigator.clipboard.writeText('{{ referral_url }}').then(() => { this.textContent = 'Copied!'; setTimeout(() => this.textContent = 'Copy', 2000); })"
+        style="flex-shrink: 0;"
+      >Copy</button>
+    </div>
+  </div>
+
+  <!-- Sign out -->
+  <div class="card" style="padding: var(--space-6); border-left: 3px solid #dc3545;">
+    <div style="display: flex; justify-content: space-between; align-items: center; gap: var(--space-4);">
+      <div>
+        <h2 style="font-size: 1rem; font-weight: 600; margin: 0 0 4px;">Sign Out</h2>
+        <p style="margin: 0; color: var(--text-muted);">Sign out of your account on this device.</p>
+      </div>
+      <a href="{% url 'account_logout' %}" class="btn btn--outline btn--sm" style="flex-shrink: 0;">Sign Out</a>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

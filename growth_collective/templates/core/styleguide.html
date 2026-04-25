@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% block title %}Styleguide — Growth Collective{% endblock %}
+
+{% block content %}
+<div class="container page-content">
+  <h1>Design System Styleguide</h1>
+
+  <!-- Typography -->
+  <section style="margin-bottom: var(--space-12);">
+    <h2>Typography</h2>
+    <h1>Heading 1 — Playfair Display</h1>
+    <h2>Heading 2</h2>
+    <h3>Heading 3</h3>
+    <h4>Heading 4</h4>
+    <p>Body text — DM Sans. The quick brown fox jumps over the lazy dog. <a href="#">This is a link</a>. <strong>Bold text.</strong> <em>Italic text.</em></p>
+    <p class="text-accent">Accent text in gold italic</p>
+    <p class="text-muted">Muted text</p>
+  </section>
+
+  <!-- Buttons -->
+  <section style="margin-bottom: var(--space-12);">
+    <h2>Buttons</h2>
+    <div style="display: flex; gap: var(--space-3); flex-wrap: wrap; align-items: center;">
+      <button class="btn btn--primary">Primary</button>
+      <button class="btn btn--gold">Gold</button>
+      <button class="btn btn--outline">Outline</button>
+      <button class="btn btn--primary btn--sm">Primary SM</button>
+      <button class="btn btn--gold btn--sm">Gold SM</button>
+      <button class="btn btn--outline btn--sm">Outline SM</button>
+      <button class="btn btn--primary btn--lg">Primary LG</button>
+    </div>
+    <div style="background: var(--navy); padding: var(--space-6); margin-top: var(--space-4); display: flex; gap: var(--space-3); flex-wrap: wrap;">
+      <button class="btn btn--outline-white">Outline White</button>
+      <button class="btn btn--gold">Gold on Dark</button>
+    </div>
+  </section>
+
+  <!-- Badges -->
+  <section style="margin-bottom: var(--space-12);">
+    <h2>Badges</h2>
+    <div style="display: flex; gap: var(--space-3); flex-wrap: wrap; align-items: center;">
+      <span class="badge">Default</span>
+      <span class="badge badge--green">Green</span>
+      <span class="badge badge--orange">Orange</span>
+      <span class="badge badge--gold">Gold</span>
+      <span class="badge badge--grey">Grey</span>
+      <span class="badge badge--outline">Outline</span>
+      <span class="badge badge--bronze">Bronze</span>
+      <span class="badge badge--silver">Silver</span>
+      <span class="badge badge--gold">Gold</span>
+      <span class="badge badge--elite">Elite</span>
+    </div>
+  </section>
+
+  <!-- Cards -->
+  <section style="margin-bottom: var(--space-12);">
+    <h2>Cards</h2>
+    <div class="grid-3">
+      <div class="card">
+        <div class="card__header">
+          <h3 class="card__title">Standard Card</h3>
+          <a href="#" class="card__link">View all</a>
+        </div>
+        <div class="card__body">
+          <p>Card body content goes here. This is a standard card with a header.</p>
+        </div>
+      </div>
+      <div class="card card--highlight">
+        <h3 class="card__title">Highlight Card</h3>
+        <p>Used for important information like upcoming bookings.</p>
+      </div>
+      <div class="stat-card">
+        <span class="stat-card__number">42</span>
+        <span class="stat-card__label">Stat Label</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Forms -->
+  <section style="margin-bottom: var(--space-12);">
+    <h2>Forms</h2>
+    <div style="max-width: 480px;">
+      <div class="form-group">
+        <label class="form-label">Text Input</label>
+        <input type="text" class="form-input" placeholder="Placeholder text">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Select</label>
+        <select class="form-input">
+          <option>Option 1</option>
+          <option>Option 2</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Textarea</label>
+        <textarea class="form-input" rows="3" placeholder="Write something..."></textarea>
+      </div>
+      <div class="form-group form-group--error">
+        <label class="form-label">Error State</label>
+        <input type="text" class="form-input" value="Invalid value">
+        <span class="form-error">This field is required.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Alerts -->
+  <section style="margin-bottom: var(--space-12);">
+    <h2>Alerts</h2>
+    <div class="alert alert--success">Success — Your changes have been saved.</div>
+    <div class="alert alert--warning">Warning — Your subscription is past due.</div>
+    <div class="alert alert--error">Error — Something went wrong. Please try again.</div>
+    <div class="alert alert--info">Info — A meeting link will be sent before the event.</div>
+  </section>
+
+  <!-- Tabs -->
+  <section style="margin-bottom: var(--space-12);">
+    <h2>Tabs</h2>
+    <div class="tabs">
+      <a href="#" class="tab tab--active">All</a>
+      <a href="#" class="tab">Webinars</a>
+      <a href="#" class="tab">Training</a>
+    </div>
+  </section>
+
+  <!-- Upgrade CTA -->
+  <section style="margin-bottom: var(--space-12);">
+    <h2>Upgrade CTA</h2>
+    <div class="upgrade-cta">
+      <h3>Unlock premium features</h3>
+      <p>Upgrade to access coaching sessions, premium events, and exclusive member offers.</p>
+      <a href="#" class="btn btn--gold">Upgrade Now</a>
+    </div>
+  </section>
+
+  <!-- Empty state -->
+  <section style="margin-bottom: var(--space-12);">
+    <h2>Empty States</h2>
+    <div class="empty-state">
+      <p>No items found. Get started by creating one.</p>
+      <a href="#" class="btn btn--primary">Create Now</a>
+    </div>
+  </section>
+
+</div>
+{% endblock %}

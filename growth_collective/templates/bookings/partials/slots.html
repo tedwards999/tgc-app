@@ -1,0 +1,21 @@
+{% load static %}
+<div class="slots-panel">
+  <h3>Available slots with {{ coach.user.get_full_name }}</h3>
+  {% if slots %}
+    <form method="post" action="{% url 'bookings:confirm' %}">
+      {% csrf_token %}
+      <div class="slot-grid">
+        {% for slot in slots %}
+          <label class="slot-btn">
+            <input type="radio" name="slot_id" value="{{ slot.pk }}" required>
+            <span class="slot-btn__date">{{ slot.time_range.lower|date:"D j M" }}</span>
+            <span class="slot-btn__time">{{ slot.time_range.lower|time:"H:i" }}</span>
+          </label>
+        {% endfor %}
+      </div>
+      <button type="submit" class="btn btn--gold" style="margin-top: var(--space-4);">Confirm Booking</button>
+    </form>
+  {% else %}
+    <p>No available slots for this coach right now. Please try another coach or check back soon.</p>
+  {% endif %}
+</div>

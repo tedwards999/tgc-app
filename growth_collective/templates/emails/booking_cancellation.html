@@ -1,0 +1,7 @@
+{% extends "emails/base_email.html" %}
+{% block body %}
+<h1>Your coaching session has been cancelled</h1>
+<p>Hi {{ booking.user.first_name }},</p>
+<p>Your coaching session scheduled for <strong>{{ booking.scheduled_at|date:"l, j F Y" }} at {{ booking.scheduled_at|time:"H:i" }}</strong> has been cancelled.</p>
+<p>If you'd like to rebook, you can do so from your <a href="{{ site_url }}{% url 'bookings:home' %}">coaching dashboard</a>.</p>
+{% endblock %}

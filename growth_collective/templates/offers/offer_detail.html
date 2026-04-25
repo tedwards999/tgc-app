@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}{{ offer.title }} — Growth Collective{% endblock %}
+
+{% block content %}
+<div class="container page-content">
+  <a href="{% url 'offers:list' %}" class="back-link">← Offers</a>
+
+  <div class="offer-detail">
+    <div class="offer-detail__header">
+      {% if offer.provider_logo %}
+        <img src="{{ offer.provider_logo.url }}" alt="{{ offer.provider_name }}" class="offer-detail__logo">
+      {% endif %}
+      <div>
+        <span class="badge badge--outline">{{ offer.get_category_display }}</span>
+        <h1>{{ offer.title }}</h1>
+        <p class="offer-detail__provider">by {{ offer.provider_name }}</p>
+        <p class="offer-detail__headline">{{ offer.discount_headline }}</p>
+      </div>
+    </div>
+
+    <div class="offer-detail__body">
+      {{ offer.full_description|linebreaks }}
+    </div>
+
+    <div class="offer-detail__cta">
+      <a href="{% url 'offers:redeem' offer_id=offer.pk %}" class="btn btn--gold btn--lg">
+        Claim This Offer
+      </a>
+      {% if offer.expires_at %}
+        <p class="text-muted text-sm">Offer expires {{ offer.expires_at|date:"j F Y" }}</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

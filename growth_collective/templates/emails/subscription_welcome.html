@@ -1,0 +1,14 @@
+{% extends "emails/base_email.html" %}
+{% block body %}
+<h1>Welcome to Growth Collective Premium</h1>
+<p>Hi {{ user.first_name }},</p>
+<p>Your <strong>{{ plan.name }}</strong> subscription is now active. You have full access to everything Growth Collective has to offer.</p>
+<ul>
+  <li>Book your first coaching session</li>
+  <li>Access exclusive member offers</li>
+  <li>Download the full brand asset library</li>
+  <li>Register for premium training events</li>
+</ul>
+<a href="{{ site_url }}{% url 'accounts:dashboard' %}" class="btn">Go to your dashboard</a>
+<p>If you have any questions, just reply to this email.</p>
+{% endblock %}

@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block title %}Pricing — Growth Collective{% endblock %}
+
+{% block content %}
+
+<div style="background: var(--navy); padding: var(--space-16) 0;">
+  <div class="container">
+
+    <div style="text-align: center; margin-bottom: var(--space-12);">
+      <p class="lp-eyebrow">Membership</p>
+      <h1 style="font-family: var(--font-serif); font-size: clamp(2rem, 4vw, 3rem); color: var(--white); margin-bottom: var(--space-4);">
+        Choose your <em style="color: var(--gold); font-style: italic;">plan</em>
+      </h1>
+      <p style="color: rgba(255,255,255,0.6); font-size: 1.125rem;">Start free. Upgrade when you're ready.</p>
+    </div>
+
+    {% if has_premium %}
+    <div style="text-align:center; margin-bottom: var(--space-8); padding: var(--space-6); border: 1px solid var(--gold); max-width: 560px; margin-left: auto; margin-right: auto;">
+      <p style="color: var(--gold); font-weight: 600; margin-bottom: var(--space-2);">You're already a member</p>
+      <p style="color: rgba(255,255,255,0.7); margin-bottom: var(--space-4);">
+        {% if current_subscription %}
+          Current plan: <strong style="color: var(--white);">{{ current_subscription.plan.name }}</strong>
+          &nbsp;·&nbsp;
+          Status: <strong style="color: var(--white);">{{ current_subscription.status|title }}</strong>
+        {% else %}
+          Plan: <strong style="color: var(--white);">{{ request.user.get_subscription_type_display }}</strong>
+        {% endif %}
+      </p>
+      <a href="{% url 'billing:dashboard' %}" class="btn btn--gold">Manage your subscription</a>
+    </div>
+    {% endif %}
+
+    <div class="lp-pricing__grid">
+      {% for plan in plans %}
+      <div class="pricing-card {% if plan.is_popular %}pricing-card--popular{% endif %}">
+        {% if plan.is_popular %}
+          <div class="pricing-card__popular">Most Popular</div>
+        {% endif %}
+        <h2 class="pricing-card__name">{{ plan.name }}</h2>
+        <div class="pricing-card__price">
+          <span class="pricing-card__amount">£{{ plan.price_monthly|floatformat:0 }}</span>
+          <span class="pricing-card__period">/month</span>
+        </div>
+        {% if plan.features %}
+          <ul class="pricing-card__features">
+            {% for feature in plan.features %}
+              <li class="pricing-card__feature">
+                <svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                {{ feature }}
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+        {% if has_premium %}
+          {% if current_subscription and current_subscription.plan.pk == plan.pk %}
+            <div class="btn btn--gold btn--full" style="text-align:center; cursor:default;">Current Plan</div>
+          {% else %}
+            <a href="{% url 'billing:dashboard' %}" class="btn btn--outline-white btn--full">Switch plan</a>
+          {% endif %}
+        {% elif user.is_authenticated %}
+          <a href="{% url 'billing:subscribe' plan_id=plan.pk %}" class="btn {% if plan.is_popular %}btn--gold{% else %}btn--outline-white{% endif %} btn--full">
+            Subscribe
+          </a>
+        {% else %}
+          <a href="{% url 'account_signup' %}" class="btn {% if plan.is_popular %}btn--gold{% else %}btn--outline-white{% endif %} btn--full">
+            Get started
+          </a>
+        {% endif %}
+      </div>
+      {% empty %}
+      <!-- Fallback static pricing if no plans in DB yet -->
+      <div class="pricing-card">
+        <h2 class="pricing-card__name">Free Member</h2>
+        <div class="pricing-card__price">
+          <span class="pricing-card__amount">£0</span>
+          <span class="pricing-card__period">/month</span>
+        </div>
+        <ul class="pricing-card__features">
+          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Deal Board access</li>
+          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Free events</li>
+          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Basic brand assets</li>
+        </ul>
+        <a href="{% url 'account_signup' %}" class="btn btn--outline-white btn--full">Join free</a>
+      </div>
+      <div class="pricing-card pricing-card--popular">
+        <div class="pricing-card__popular">Most Popular</div>
+        <h2 class="pricing-card__name">Coaching</h2>
+        <div class="pricing-card__price">
+          <span class="pricing-card__amount">£97</span>
+          <span class="pricing-card__period">/month</span>
+        </div>
+        <ul class="pricing-card__features">
+          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>1 coaching session/month</li>
+          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Premium events &amp; training</li>
+          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Full brand asset library</li>
+          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Exclusive member offers</li>
+        </ul>
+        <a href="{% url 'account_signup' %}" class="btn btn--gold btn--full">Get started</a>
+      </div>
+      <div class="pricing-card">
+        <h2 class="pricing-card__name">Business Growth</h2>
+        <div class="pricing-card__price">
+          <span class="pricing-card__amount">£197</span>
+          <span class="pricing-card__period">/month</span>
+        </div>
+        <ul class="pricing-card__features">
+          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>2 coaching sessions/month</li>
+          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Dedicated account manager</li>
+          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Advanced resources</li>
+          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Founders' inner circle</li>
+        </ul>
+        <a href="{% url 'account_signup' %}" class="btn btn--outline-white btn--full">Get started</a>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

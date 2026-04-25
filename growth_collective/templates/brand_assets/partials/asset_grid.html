@@ -1,0 +1,36 @@
+{% if assets %}
+  <div class="grid-3">
+    {% for asset in assets %}
+    <div class="asset-card {% if not asset.user_can_download %}asset-card--locked{% endif %}">
+      {% if asset.preview_image %}
+        <img src="{{ asset.preview_image.url }}" alt="{{ asset.title }}" class="asset-card__preview">
+      {% else %}
+        <div class="asset-card__preview-placeholder">{{ asset.get_category_display }}</div>
+      {% endif %}
+      <div class="asset-card__body">
+        <span class="badge badge--outline">{{ asset.get_category_display }}</span>
+        <h3 class="asset-card__title">{{ asset.title }}</h3>
+        {% if asset.description %}
+          <p class="asset-card__desc">{{ asset.description|truncatewords:15 }}</p>
+        {% endif %}
+        <span class="asset-card__size">{{ asset.file_size_display }}</span>
+      </div>
+      <div class="asset-card__footer">
+        {% if asset.user_can_download %}
+          <a href="{% url 'brand_assets:download' asset_id=asset.pk %}" class="btn btn--primary btn--sm">Download</a>
+        {% else %}
+          <div class="premium-lock">
+            <a href="{% url 'billing:pricing' %}" class="btn btn--outline btn--sm">
+              🔒 Premium Only
+            </a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="empty-state">
+    <p>No assets in this category yet.</p>
+  </div>
+{% endif %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Subscription Confirmed — Growth Collective{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 520px; padding: var(--space-16) var(--space-4); text-align: center;">
+
+  <div style="width: 64px; height: 64px; border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-6);">
+    <svg width="28" height="28" fill="none" stroke="#1a2332" stroke-width="2.5" viewBox="0 0 24 24">
+      <polyline points="20 6 9 17 4 12"/>
+    </svg>
+  </div>
+
+  <h1 style="font-family: var(--font-serif); font-size: 2rem; margin-bottom: var(--space-3);">You're all set!</h1>
+  <p style="color: var(--text-muted); margin-bottom: var(--space-8);">
+    Your Growth Collective membership is now active. Welcome to the collective.
+  </p>
+
+  <a href="{% url 'accounts:dashboard' %}" class="btn btn--gold btn--lg">Go to your dashboard</a>
+
+</div>
+{% endblock %}
