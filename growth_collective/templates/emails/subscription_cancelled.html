@@ -1,0 +1,8 @@
+{% extends "emails/base_email.html" %}
+{% block body %}
+<h1>Your subscription has been cancelled</h1>
+<p>Hi {{ user.first_name }},</p>
+<p>Your Growth Collective subscription has been cancelled. You will retain access until the end of your current billing period.</p>
+<p>After that, your account will revert to the free plan. You can resubscribe at any time from your <a href="{{ site_url }}{% url 'billing:pricing' %}">pricing page</a>.</p>
+<p>We're sorry to see you go. If there's anything we could have done better, please reply and let us know.</p>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "emails/base_email.html" %}
+{% block body %}
+<h1>Reminder: {{ event.title }} is tomorrow</h1>
+<p>Hi {{ attendee.user.first_name }},</p>
+<p>Just a reminder that you're registered for <strong>{{ event.title }}</strong> tomorrow at {{ event.datetime|time:"H:i" }}.</p>
+{% if event.meeting_link %}
+<a href="{{ event.meeting_link }}" class="btn">Join the event</a>
+{% else %}
+<p>A meeting link will be sent before the event starts.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "emails/base_email.html" %}
+{% block body %}
+<h1>You've been invited to Growth Collective</h1>
+<p>Hi there,</p>
+<p><strong>{{ referrer.get_full_name }}</strong> thinks you'd be a great fit for Growth Collective — a premium community for ambitious business owners.</p>
+<p>Members get access to expert coaching, a live deal board, exclusive offers, and events designed to help you grow your business.</p>
+<a href="{{ invite_url }}" class="btn">Accept Invitation</a>
+<p>Membership starts free. No credit card required.</p>
+{% endblock %}

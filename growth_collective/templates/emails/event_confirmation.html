@@ -1,0 +1,13 @@
+{% extends "emails/base_email.html" %}
+{% block body %}
+<h1>You're registered: {{ event.title }}</h1>
+<p>Hi {{ attendee.user.first_name }},</p>
+<p>You're registered for the following event. We'll send you a reminder the day before.</p>
+<table style="margin: 16px 0; width: 100%;">
+  <tr><td style="padding: 8px 0; font-weight: 600; width: 100px;">Event</td><td>{{ event.title }}</td></tr>
+  <tr><td style="padding: 8px 0; font-weight: 600;">Date</td><td>{{ event.datetime|date:"l, j F Y" }}</td></tr>
+  <tr><td style="padding: 8px 0; font-weight: 600;">Time</td><td>{{ event.datetime|time:"H:i" }}</td></tr>
+  <tr><td style="padding: 8px 0; font-weight: 600;">Type</td><td>{{ event.get_event_type_display }}</td></tr>
+</table>
+<p>A meeting link will be sent to you before the event starts.</p>
+{% endblock %}

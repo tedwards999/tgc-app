@@ -1,0 +1,27 @@
+Growth Collective — Build Plan
+==============================
+
+[x] 1.  Create to_do.txt
+[x] 2.  Project foundation (manage.py, requirements.txt, config/, .env.example)
+[x] 3.  CSS design system (tokens, reset, base, layout, components, utilities)
+[x] 4.  accounts app + core app (User model, decorators, middleware)
+[x] 5.  Base templates + navigation (base.html, nav partial, footer)
+[x] 6.  billing app (PayPal subscriptions, webhook handler, pricing page)
+[x] 7.  bookings app (coach availability, slot calendar, booking flow)
+[x] 8.  events app (webinars + training sessions, registration)
+[x] 9.  brand_assets app + points app + notifications app
+[x] 10. referrals app (deal board, invite flow, monthly prompts)
+[x] 11. offers app (Collective Advantage marketplace)
+[x] 12. All HTML templates (landing, dashboard, all member pages)
+[x] 13. Admin configurations + content app + styleguide
+
+Build complete. Django system check: 0 errors.
+All 10 app migrations generated successfully.
+
+Next steps before first deploy:
+- Create PostgreSQL database: growth_collective
+- Copy .env.example to .env and fill in credentials
+- python manage.py migrate
+- python manage.py createsuperuser
+- Create Plan records in /admin for billing
+- Set SITE_ID=1 record in Sites framework

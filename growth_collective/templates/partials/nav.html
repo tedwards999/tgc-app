@@ -1,0 +1,75 @@
+{% load static %}
+<nav class="nav">
+  <div class="nav__inner">
+
+    <button class="nav__hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <a href="{% url 'accounts:dashboard' %}" class="nav__logo">
+      <span class="nav__logo-text">Growth <span class="text-accent">Collective</span></span>
+    </a>
+
+    <ul class="nav__links">
+      <li><a href="{% url 'accounts:dashboard' %}" class="nav__link {% if request.resolver_match.namespace == 'accounts' and request.resolver_match.url_name == 'dashboard' %}nav__link--active{% endif %}">Dashboard</a></li>
+      <li><a href="{% url 'bookings:home' %}" class="nav__link {% if request.resolver_match.namespace == 'bookings' %}nav__link--active{% endif %}">Coaching</a></li>
+      <li><a href="{% url 'events:list' %}" class="nav__link {% if request.resolver_match.namespace == 'events' %}nav__link--active{% endif %}">Events</a></li>
+      <li><a href="{% url 'referrals:board' %}" class="nav__link {% if request.resolver_match.namespace == 'referrals' %}nav__link--active{% endif %}">Deal Board</a></li>
+      <li><a href="{% url 'offers:list' %}" class="nav__link {% if request.resolver_match.namespace == 'offers' %}nav__link--active{% endif %}">Offers</a></li>
+      <li><a href="{% url 'brand_assets:library' %}" class="nav__link {% if request.resolver_match.namespace == 'brand_assets' %}nav__link--active{% endif %}">Resources</a></li>
+    </ul>
+
+    <div class="nav__actions">
+      {% if user.ranking %}
+        <a href="{% url 'points:leaderboard' %}" class="nav__points">
+          <span class="badge badge--{{ user.ranking.tier }}">{{ user.ranking.tier|title }}</span>
+          <span class="nav__points-count">{{ user.ranking.total_points }} pts</span>
+        </a>
+      {% endif %}
+      <div class="nav__avatar-wrap">
+        <a href="{% url 'accounts:profile' %}" class="nav__avatar" title="{{ user.get_full_name }}">
+          {% if user.first_name %}{{ user.first_name|first|upper }}{{ user.last_name|first|upper }}{% else %}{{ user.email|first|upper }}{% endif %}
+        </a>
+        <div class="nav__dropdown">
+          <div class="nav__dropdown-inner">
+            <a href="{% url 'accounts:profile' %}">Profile</a>
+            <a href="{% url 'billing:dashboard' %}">Billing</a>
+            <a href="{% url 'account_logout' %}">Sign out</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Mobile drawer -->
+  <div class="nav__mobile" id="nav-mobile">
+    <ul>
+      <li><a href="{% url 'accounts:dashboard' %}" class="nav__link">Dashboard</a></li>
+      <li><a href="{% url 'bookings:home' %}" class="nav__link">Coaching</a></li>
+      <li><a href="{% url 'events:list' %}" class="nav__link">Events</a></li>
+      <li><a href="{% url 'referrals:board' %}" class="nav__link">Deal Board</a></li>
+      <li><a href="{% url 'offers:list' %}" class="nav__link">Offers</a></li>
+      <li><a href="{% url 'brand_assets:library' %}" class="nav__link">Resources</a></li>
+    </ul>
+    <div class="nav__mobile-actions">
+      <a href="{% url 'accounts:profile' %}" class="nav__link">Profile</a>
+      <a href="{% url 'billing:dashboard' %}" class="nav__link">Billing</a>
+      <a href="{% url 'account_logout' %}" class="nav__link">Sign out</a>
+    </div>
+  </div>
+</nav>
+
+<script>
+  (function () {
+    var btn = document.getElementById('nav-hamburger');
+    var drawer = document.getElementById('nav-mobile');
+    if (!btn || !drawer) return;
+    btn.addEventListener('click', function () {
+      var open = drawer.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', open);
+    });
+  })();
+</script>

@@ -1,0 +1,18 @@
+{% extends "emails/base_email.html" %}
+{% block body %}
+<h1>Your coaching session is confirmed</h1>
+<p>Hi {{ booking.user.first_name }},</p>
+<p>Great news — your 1:1 coaching session has been confirmed.</p>
+<table style="margin: 16px 0; width: 100%;">
+  <tr><td style="padding: 8px 0; font-weight: 600; width: 120px;">Coach</td><td>{{ booking.coach.user.get_full_name }}</td></tr>
+  <tr><td style="padding: 8px 0; font-weight: 600;">Date</td><td>{{ booking.scheduled_at|date:"l, j F Y" }}</td></tr>
+  <tr><td style="padding: 8px 0; font-weight: 600;">Time</td><td>{{ booking.scheduled_at|time:"H:i" }}</td></tr>
+  {% if booking.duration_minutes %}<tr><td style="padding: 8px 0; font-weight: 600;">Duration</td><td>{{ booking.duration_minutes }} minutes</td></tr>{% endif %}
+</table>
+{% if booking.meeting_link %}
+<a href="{{ booking.meeting_link }}" class="btn">Join your session</a>
+{% else %}
+<p>A meeting link will be sent closer to the time.</p>
+{% endif %}
+<p>If you need to cancel, please do so at least 24 hours in advance through your dashboard.</p>
+{% endblock %}

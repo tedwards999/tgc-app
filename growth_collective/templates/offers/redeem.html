@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Redeem Offer — Growth Collective{% endblock %}
+
+{% block content %}
+<div class="container page-content">
+  <a href="{% url 'offers:detail' offer_id=offer.pk %}" class="back-link">← {{ offer.title }}</a>
+
+  <div class="form-layout">
+    <h1>How to Redeem</h1>
+    <div class="card">
+      <h2 class="card__title">{{ offer.discount_headline }}</h2>
+      {% if offer.redemption_code %}
+        <div class="redemption-code">
+          <p>Use this code at checkout:</p>
+          <code class="code-block">{{ offer.redemption_code }}</code>
+        </div>
+      {% endif %}
+      {% if offer.redemption_instructions %}
+        <div style="margin-top: var(--space-4);">
+          {{ offer.redemption_instructions|linebreaks }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "emails/base_email.html" %}
+{% block body %}
+<h1>Action required: Payment failed</h1>
+<p>Hi {{ user.first_name }},</p>
+<p>We were unable to process your most recent subscription payment. Your account has been moved to past-due status.</p>
+<p>Please update your payment method through PayPal to continue your membership.</p>
+<a href="{{ site_url }}{% url 'billing:dashboard' %}" class="btn">Manage Billing</a>
+<p>If payment is not resolved within 7 days, your account will be suspended.</p>
+{% endblock %}

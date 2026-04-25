@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}{{ event.title }} — Growth Collective{% endblock %}
+
+{% block content %}
+<div class="container page-content">
+  <a href="{% url 'events:list' %}" class="back-link">← Events</a>
+
+  <div class="event-detail">
+    <div class="event-detail__header">
+      <span class="badge badge--outline">{{ event.get_event_type_display }}</span>
+      {% if event.is_premium %}<span class="badge badge--gold">Premium</span>{% endif %}
+      <h1>{{ event.title }}</h1>
+      <time class="event-detail__date">{{ event.datetime|date:"l, j F Y" }} at {{ event.datetime|time:"H:i" }}</time>
+    </div>
+
+    <div class="event-detail__body">
+      <div class="event-detail__description">
+        {{ event.description|linebreaks }}
+      </div>
+
+      <div class="event-detail__sidebar">
+        <div class="card">
+          <h3 class="card__title">Details</h3>
+          <dl class="detail-list">
+            <dt>Date</dt>
+            <dd>{{ event.datetime|date:"l, j F Y" }}</dd>
+            <dt>Time</dt>
+            <dd>{{ event.datetime|time:"H:i" }}</dd>
+            {% if event.duration_minutes %}
+              <dt>Duration</dt>
+              <dd>{{ event.duration_minutes }} minutes</dd>
+            {% endif %}
+            {% if event.host %}
+              <dt>Host</dt>
+              <dd>{{ event.host.get_full_name }}</dd>
+            {% endif %}
+            <dt>Spots</dt>
+            <dd>
+              {% if event.max_attendees %}
+                {{ event.attendee_count }} / {{ event.max_attendees }}
+              {% else %}
+                {{ event.attendee_count }} registered (unlimited)
+              {% endif %}
+            </dd>
+          </dl>
+
+          {% if user_registered %}
+            <span class="badge badge--green" style="margin-top: var(--space-4);">You are registered ✓</span>
+            <a href="{% url 'events:cancel' event_id=event.pk %}" class="btn btn--outline btn--sm" style="display:block; margin-top: var(--space-2);">Cancel Registration</a>
+          {% elif event.is_full %}
+            <p class="text-muted" style="margin-top: var(--space-4);">This event is fully booked.</p>
+          {% else %}
+            <a href="{% url 'events:register' event_id=event.pk %}" class="btn btn--gold" style="margin-top: var(--space-4);">Register Now</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

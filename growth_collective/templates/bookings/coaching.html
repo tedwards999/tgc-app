@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% block title %}Coaching — Growth Collective{% endblock %}
+
+{% block content %}
+<div style="background: var(--cream); min-height: 100vh;">
+<div class="container page-content">
+
+  <!-- Page header -->
+  <div style="margin-bottom: var(--space-8);">
+    <h1 style="font-family: var(--font-serif); color: var(--navy); margin-bottom: var(--space-1);">
+      Book Your Coaching Session
+    </h1>
+    <p style="font-family: var(--font-serif); font-style: italic; color: var(--gold); margin: 0;">
+      One-to-one expert guidance for your business
+    </p>
+  </div>
+
+  <!-- Session quota alert -->
+  {% if usage %}
+  <div style="background: rgba(212,165,116,.1); border-left: 4px solid var(--gold); border-radius: 6px; padding: var(--space-4) var(--space-5); margin-bottom: var(--space-8); display: flex; align-items: center; gap: var(--space-3);">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="var(--gold)" stroke-width="2" style="flex-shrink: 0;">
+      <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+    <p style="margin: 0; font-family: var(--font-sans); color: var(--navy);">
+      Sessions used this month:
+      <strong>{{ usage.sessions_used }} / {{ sessions_per_month }}</strong>
+      {% if usage.sessions_used >= sessions_per_month %}
+        — You have reached your monthly limit.
+      {% endif %}
+    </p>
+  </div>
+  {% endif %}
+
+  <!-- Two-column layout: 1/3 coaches | 2/3 slots -->
+  <div class="grid-1-2" style="align-items: start;">
+
+    <!-- Left: Coach selection list -->
+    <div>
+      <h2 style="font-family: var(--font-serif); color: var(--navy); font-size: 1.1rem; margin-bottom: var(--space-4);">
+        Choose a Coach
+      </h2>
+
+      <div style="display: flex; flex-direction: column; gap: var(--space-3);" id="coach-grid">
+        {% for coach in coaches %}
+        <div class="card"
+             hx-get="{% url 'bookings:book' %}?coach_id={{ coach.pk }}"
+             hx-target="#slot-panel"
+             hx-swap="innerHTML"
+             hx-trigger="click"
+             style="cursor: pointer; padding: var(--space-4); display: flex; gap: var(--space-3); align-items: flex-start;">
+
+          <!-- Avatar: navy circle with white initials -->
+          <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--navy); color: var(--white); display: flex; align-items: center; justify-content: center; font-family: var(--font-serif); font-weight: 700; font-size: .95rem; flex-shrink: 0;">
+            {{ coach.user.first_name|first }}{{ coach.user.last_name|first }}
+          </div>
+
+          <!-- Coach info -->
+          <div style="min-width: 0;">
+            <strong style="font-family: var(--font-sans); color: var(--navy); display: block; margin-bottom: 2px;">
+              {{ coach.user.get_full_name }}
+            </strong>
+            <span style="font-family: var(--font-sans); font-size: .8rem; color: var(--gold); display: block; margin-bottom: var(--space-2);">
+              {{ coach.specialty }}
+            </span>
+            <p style="font-family: var(--font-sans); font-size: .82rem; color: var(--gray); margin: 0 0 var(--space-2);">
+              {{ coach.bio|truncatewords:20 }}
+            </p>
+            <div style="display: flex; gap: var(--space-4);">
+              <span style="font-family: var(--font-sans); font-size: .75rem; color: var(--gray);">
+                <strong style="color: var(--navy);">{{ coach.years_experience|default:"—" }}</strong> yrs exp
+              </span>
+              <span style="font-family: var(--font-sans); font-size: .75rem; color: var(--gray);">
+                <strong style="color: var(--navy);">{{ coach.total_sessions|default:"—" }}</strong> sessions
+              </span>
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <p style="font-family: var(--font-sans); color: var(--gray);">No coaches available at the moment. Please check back soon.</p>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Right: Available slots panel -->
+    <div>
+      <div class="card" style="background: var(--white);">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-6);">
+          <h2 style="font-family: var(--font-serif); color: var(--navy); margin: 0; font-size: 1.25rem;">
+            Available Time Slots
+          </h2>
+          <div style="display: flex; gap: var(--space-2);">
+            <button class="btn btn--outline btn--sm" aria-label="Previous week">&#8592; Prev</button>
+            <button class="btn btn--outline btn--sm" aria-label="Next week">Next &#8594;</button>
+          </div>
+        </div>
+
+        <!-- Slot panel — populated by HTMX when a coach is selected -->
+        <div id="slot-panel" style="min-height: 200px;">
+          <p style="font-family: var(--font-sans); color: var(--gray); text-align: center; padding: var(--space-10) 0;">
+            Select a coach on the left to see available slots.
+          </p>
+        </div>
+      </div>
+
+      <!-- Upcoming booking card (gold left border) -->
+      {% if upcoming_booking %}
+      <div class="card" style="margin-top: var(--space-6); border-left: 4px solid var(--gold); background: var(--white);">
+        <h2 style="font-family: var(--font-serif); color: var(--navy); font-size: 1.1rem; margin-bottom: var(--space-4);">
+          Your Upcoming Sessions
+        </h2>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap;">
+          <div>
+            <strong style="font-family: var(--font-sans); color: var(--navy); display: block;">
+              {{ upcoming_booking.coach.user.get_full_name }}
+            </strong>
+            <span style="font-family: var(--font-sans); font-size: .875rem; color: var(--gray);">
+              {{ upcoming_booking.scheduled_at|date:"l, j F Y" }} at {{ upcoming_booking.scheduled_at|time:"H:i" }}
+            </span>
+          </div>
+          <div style="display: flex; gap: var(--space-2); align-items: center;">
+            {% if upcoming_booking.meeting_url %}
+              <a href="{{ upcoming_booking.meeting_url }}" class="btn btn--gold btn--sm" target="_blank" rel="noopener">Join Session</a>
+            {% endif %}
+            <form method="post" action="{% url 'bookings:cancel' booking_id=upcoming_booking.pk %}" style="display:inline;"
+                  onsubmit="return confirm('Cancel this session?')">
+              {% csrf_token %}
+              <button type="submit" class="btn btn--outline btn--sm">Cancel</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+
+  </div>
+
+</div>
+</div>
+{% endblock %}

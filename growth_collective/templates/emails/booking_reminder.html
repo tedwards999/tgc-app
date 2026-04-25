@@ -1,0 +1,18 @@
+{% extends "emails/base_email.html" %}
+{% block body %}
+<h1>Reminder: your coaching session is tomorrow</h1>
+<p>Hi {{ booking.user.first_name }},</p>
+<p>Just a reminder that you have a 1:1 coaching session scheduled for tomorrow.</p>
+<table style="margin: 16px 0; width: 100%;">
+  <tr><td style="padding: 8px 0; font-weight: 600; width: 120px;">Coach</td><td>{{ booking.coach.user.get_full_name }}</td></tr>
+  <tr><td style="padding: 8px 0; font-weight: 600;">Date</td><td>{{ booking.scheduled_at|date:"l, j F Y" }}</td></tr>
+  <tr><td style="padding: 8px 0; font-weight: 600;">Time</td><td>{{ booking.scheduled_at|time:"H:i" }}</td></tr>
+  {% if booking.duration_minutes %}<tr><td style="padding: 8px 0; font-weight: 600;">Duration</td><td>{{ booking.duration_minutes }} minutes</td></tr>{% endif %}
+</table>
+{% if booking.meeting_link %}
+<a href="{{ booking.meeting_link }}" class="btn">Join your session</a>
+{% else %}
+<p>A meeting link will be sent before the session starts.</p>
+{% endif %}
+<p>If you need to cancel, please do so at least 24 hours in advance through your <a href="{{ site_url }}{% url 'bookings:home' %}">coaching dashboard</a>.</p>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% if referrals %}
+  <div class="deal-grid">
+    {% for referral in referrals %}
+    <div class="deal-card">
+      <div class="deal-card__header">
+        <span class="badge badge--outline">{{ referral.get_referral_type_display }}</span>
+        <span class="badge badge--{% if referral.status == 'successful' %}green{% elif referral.status == 'engaged' %}blue{% else %}grey{% endif %}">
+          {{ referral.get_status_display }}
+        </span>
+      </div>
+      <h3 class="deal-card__title">{{ referral.title }}</h3>
+      <p class="deal-card__desc">{{ referral.description|truncatewords:30 }}</p>
+      <div class="deal-card__meta">
+        {% if referral.industry %}<span class="tag">{{ referral.industry }}</span>{% endif %}
+        {% if referral.value_estimate %}<span class="tag">{{ referral.value_estimate }}</span>{% endif %}
+        <span class="deal-card__by">by {{ referral.referrer.get_full_name }}</span>
+      </div>
+      <div class="deal-card__actions">
+        {% if referral.is_own %}
+          <span class="text-muted text-sm">Your referral</span>
+          {% if referral.status != 'successful' %}
+            <a href="{% url 'referrals:mark_successful' referral_id=referral.pk %}"
+               class="btn btn--outline btn--sm"
+               onclick="return confirm('Mark this referral as successful?')">Mark Successful</a>
+          {% endif %}
+        {% elif referral.user_engaged %}
+          <span class="badge badge--green">Interest Sent ✓</span>
+        {% elif referral.status != 'successful' %}
+          <a href="{% url 'referrals:engage' referral_id=referral.pk %}" class="btn btn--primary btn--sm">Express Interest</a>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="empty-state">
+    <p>No referrals on the board yet. Be the first to post one!</p>
+    <a href="{% url 'referrals:submit' %}" class="btn btn--primary">Post a Referral</a>
+  </div>
+{% endif %}

@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — Growth Collective{% endblock %}
+
+{% block content %}
+<div class="container page-content">
+
+  <div style="margin-bottom: var(--space-12);">
+    <h1 style="font-family: var(--font-serif); font-size: 2.5rem; color: var(--navy); margin-bottom: var(--space-2);">
+      Welcome back, <span class="text-accent">{{ request.user.first_name }}</span>
+    </h1>
+    <p style="color: var(--gray);">Here's what's happening with your membership</p>
+  </div>
+
+  <!-- 4-col stat grid -->
+  <div class="stat-grid" style="margin-bottom: var(--space-12);">
+    <div class="stat-card">
+      <div class="stat-card__header">
+        <div class="stat-card__icon stat-card__icon--gold">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--gold)"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <span class="stat-card__label">Points</span>
+      </div>
+      <div class="stat-card__value">{% if ranking %}{{ ranking.total_points }}{% else %}0{% endif %}</div>
+      <div class="stat-card__sub stat-card__sub--gold">{% if ranking %}{{ ranking.tier|title }} Tier{% else %}Start earning{% endif %}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card__header">
+        <div class="stat-card__icon stat-card__icon--navy">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--navy)"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <span class="stat-card__label">Coaching Session</span>
+      </div>
+      <div class="stat-card__value">{% if upcoming_booking %}1{% else %}0{% endif %}</div>
+      <div class="stat-card__sub">This Month</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card__header">
+        <div class="stat-card__icon stat-card__icon--gold">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--gold)"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        </div>
+        <span class="stat-card__label">Rank</span>
+      </div>
+      <div class="stat-card__value">{% if ranking %}#{{ ranking.rank|default:"—" }}{% else %}—{% endif %}</div>
+      <div class="stat-card__sub">This Month</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card__header">
+        <div class="stat-card__icon stat-card__icon--navy">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--navy)"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+        </div>
+        <span class="stat-card__label">Events</span>
+      </div>
+      <div class="stat-card__value">{{ upcoming_events|length }}</div>
+      <div class="stat-card__sub">Upcoming</div>
+    </div>
+  </div>
+
+  <div class="dashboard-grid">
+
+    <div class="dashboard-main" style="display:flex;flex-direction:column;gap:var(--space-8);">
+
+      <!-- Next Coaching Session -->
+      <div class="card">
+        <div class="card__header">
+          <h2 style="font-family:var(--font-serif);font-size:1.5rem;color:var(--navy);">Next Coaching Session</h2>
+        </div>
+        {% if upcoming_booking %}
+        <div style="border-left:4px solid var(--gold);padding-left:var(--space-6);padding-top:var(--space-4);padding-bottom:var(--space-4);">
+          <h3 style="font-size:1.0625rem;font-weight:600;color:var(--navy);margin-bottom:var(--space-2);">{{ upcoming_booking.notes|default:"Coaching Session" }}</h3>
+          <p style="color:var(--gray);margin-bottom:var(--space-4);">with {{ upcoming_booking.coach.user.get_full_name }}</p>
+          <div style="display:flex;gap:var(--space-6);font-size:.875rem;color:var(--gray);margin-bottom:var(--space-5);">
+            <span>{{ upcoming_booking.scheduled_at|date:"l, j F Y" }}</span>
+            <span>{{ upcoming_booking.scheduled_at|time:"H:i" }}</span>
+          </div>
+          {% if upcoming_booking.meeting_link %}
+            <a href="{{ upcoming_booking.meeting_link }}" class="btn btn--primary" target="_blank" rel="noopener">Join Meeting</a>
+          {% else %}
+            <a href="{% url 'bookings:home' %}" class="btn btn--primary">View Session</a>
+          {% endif %}
+        </div>
+        {% else %}
+        <div style="text-align:center;padding:var(--space-10) 0;">
+          <p style="color:var(--gray);margin-bottom:var(--space-4);">No upcoming sessions scheduled</p>
+          <a href="{% url 'bookings:home' %}" class="btn btn--gold">Book Your Session</a>
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Upcoming Events -->
+      {% if upcoming_events %}
+      <div class="card">
+        <div class="card__header">
+          <h2 style="font-family:var(--font-serif);font-size:1.5rem;color:var(--navy);">Upcoming Events</h2>
+          <a href="{% url 'events:list' %}" class="card__link">View All →</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:var(--space-3);">
+          {% for attendee in upcoming_events %}
+          <div style="border:1px solid var(--gray-light);padding:var(--space-4);">
+            <span class="badge badge--gold" style="display:inline-block;margin-bottom:var(--space-2);">{{ attendee.event.get_event_type_display }}</span>
+            <h3 style="font-weight:600;color:var(--navy);margin-bottom:var(--space-2);">{{ attendee.event.title }}</h3>
+            <div style="display:flex;justify-content:space-between;font-size:.875rem;color:var(--gray);">
+              <span>{{ attendee.event.datetime|date:"j M Y" }} · {{ attendee.event.datetime|time:"H:i" }}</span>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Recent Activity -->
+      {% if recent_activity %}
+      <div class="card">
+        <div class="card__header">
+          <h2 style="font-family:var(--font-serif);font-size:1.5rem;color:var(--navy);">Recent Activity</h2>
+          <a href="{% url 'points:my_points' %}" class="card__link">View all</a>
+        </div>
+        <div>
+          {% for entry in recent_activity %}
+          <div style="display:flex;align-items:flex-start;gap:var(--space-4);padding:var(--space-4) 0;border-bottom:1px solid var(--gray-light);">
+            <div style="width:2rem;height:2rem;background:rgba(212,165,116,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--gold)"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <div style="flex:1;">
+              <p style="color:var(--navy);margin-bottom:var(--space-1);">{{ entry.description|default:entry.action_type }}</p>
+              <div style="display:flex;gap:var(--space-3);font-size:.875rem;">
+                <span style="color:var(--gold);font-weight:500;">+{{ entry.points }} points</span>
+                <span style="color:var(--gray);">{{ entry.created_at|date:"j M" }}</span>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+    </div>
+
+    <div class="dashboard-aside" style="display:flex;flex-direction:column;gap:var(--space-8);">
+
+      <!-- Monthly Prompts -->
+      <div style="background:linear-gradient(135deg,var(--navy),var(--navy-light));padding:var(--space-8);color:var(--white);">
+        <h3 style="font-size:1rem;font-weight:600;margin-bottom:var(--space-3);">Monthly Prompts</h3>
+        <p style="color:rgba(255,255,255,.75);font-size:.875rem;margin-bottom:var(--space-6);">Complete these actions to earn bonus points and stay engaged with the community.</p>
+        <div style="display:flex;flex-direction:column;gap:var(--space-3);">
+          {% for prompt in monthly_prompts %}
+          <div style="display:flex;align-items:center;gap:var(--space-3);font-size:.875rem;{% if not prompt.completed %}opacity:.5;{% endif %}">
+            {% if prompt.completed %}<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--gold);flex-shrink:0;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            {% else %}<div style="width:20px;height:20px;border:2px solid rgba(255,255,255,.3);border-radius:50%;flex-shrink:0;"></div>{% endif %}
+            <span>{{ prompt.prompt_text }}</span>
+          </div>
+          {% empty %}
+          <div style="display:flex;align-items:center;gap:var(--space-3);font-size:.875rem;opacity:.5;"><div style="width:20px;height:20px;border:2px solid rgba(255,255,255,.3);border-radius:50%;flex-shrink:0;"></div><span>Submit a referral to Deal Board</span></div>
+          <div style="display:flex;align-items:center;gap:var(--space-3);font-size:.875rem;opacity:.5;"><div style="width:20px;height:20px;border:2px solid rgba(255,255,255,.3);border-radius:50%;flex-shrink:0;"></div><span>Invite a new member</span></div>
+          <div style="display:flex;align-items:center;gap:var(--space-3);font-size:.875rem;opacity:.5;"><div style="width:20px;height:20px;border:2px solid rgba(255,255,255,.3);border-radius:50%;flex-shrink:0;"></div><span>Post an offer</span></div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="card">
+        <h3 style="font-size:1rem;font-weight:600;color:var(--navy);margin-bottom:var(--space-5);">Quick Actions</h3>
+        <div style="display:flex;flex-direction:column;gap:var(--space-3);">
+          <a href="{% url 'bookings:home' %}" class="quick-action">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" class="quick-action__icon"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span>Book Coaching Session</span>
+          </a>
+          <a href="{% url 'referrals:submit' %}" class="quick-action">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" class="quick-action__icon"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/></svg>
+            <span>Submit to Deal Board</span>
+          </a>
+          <a href="{% url 'events:list' %}" class="quick-action">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" class="quick-action__icon"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+            <span>Browse Events</span>
+          </a>
+          <a href="{% url 'brand_assets:library' %}" class="quick-action">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" class="quick-action__icon"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            <span>Access Resources</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Top Contributors -->
+      {% if top_contributors %}
+      <div class="card">
+        <div class="card__header">
+          <h3 style="font-size:1rem;font-weight:600;color:var(--navy);">Top Contributors</h3>
+          <a href="{% url 'points:leaderboard' %}" class="card__link">View All</a>
+        </div>
+        <ol class="leaderboard-mini">
+          {% for r in top_contributors %}
+          <li class="leaderboard-item">
+            <span class="leaderboard-item__rank">{{ forloop.counter }}</span>
+            <span class="leaderboard-item__name">{{ r.user.get_full_name }}</span>
+            <span class="leaderboard-item__points">{{ r.total_points }} pts</span>
+          </li>
+          {% endfor %}
+        </ol>
+      </div>
+      {% endif %}
+
+    </div>
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Your Profile — Growth Collective{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 560px; padding: var(--space-10) var(--space-4);">
+
+  <div style="margin-bottom: var(--space-8);">
+    <h1 class="section-title">Your <em>Profile</em></h1>
+    <p class="section-sub">Update your name as it appears across the platform.</p>
+  </div>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert--{{ message.tags }}" style="margin-bottom: var(--space-4);">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <div class="card" style="padding: var(--space-8);">
+
+    <!-- Avatar / initials -->
+    <div style="display: flex; align-items: center; gap: var(--space-4); margin-bottom: var(--space-6);">
+      <div style="width: 56px; height: 56px; border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.25rem; color: var(--navy); flex-shrink: 0;">
+        {{ request.user.initials }}
+      </div>
+      <div>
+        <p style="margin: 0; font-weight: 600;">{{ request.user.full_name }}</p>
+        <p style="margin: 0; color: var(--text-muted); font-size: 0.875rem;">{{ request.user.email }}</p>
+      </div>
+    </div>
+
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="form-group {% if field.errors %}form-group--error{% endif %}">
+          <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% for error in field.errors %}
+            <span class="form-error">{{ error }}</span>
+          {% endfor %}
+        </div>
+      {% endfor %}
+      <div class="form-actions" style="display: flex; gap: var(--space-3); margin-top: var(--space-6);">
+        <button type="submit" class="btn btn--gold">Save Changes</button>
+        <a href="{% url 'accounts:account_settings' %}" class="btn btn--outline">Settings</a>
+      </div>
+    </form>
+  </div>
+
+</div>
+{% endblock %}

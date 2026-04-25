@@ -1,0 +1,89 @@
+name: growth-collective
+region: lon
+
+services:
+  - name: web
+    source_dir: growth_collective
+    github:
+      repo: your-github-username/tgc-app
+      branch: master
+      deploy_on_push: true
+    build_command: pip install -r ../requirements.txt && python manage.py collectstatic --no-input
+    run_command: gunicorn config.wsgi:application --workers 2 --bind 0.0.0.0:$PORT
+    environment_slug: python
+    instance_size_slug: basic-xxs
+    instance_count: 1
+    http_port: 8080
+    envs:
+      - key: DJANGO_SETTINGS_MODULE
+        value: config.settings.prod
+      - key: SECRET_KEY
+        type: SECRET
+      - key: ALLOWED_HOSTS
+        value: your-app.ondigitalocean.app
+      - key: SITE_URL
+        value: https://your-app.ondigitalocean.app
+      - key: DATABASE_URL
+        scope: RUN_TIME
+        value: ${your-db.DATABASE_URL}
+      - key: RESEND_API_KEY
+        type: SECRET
+      - key: PAYPAL_CLIENT_ID
+        type: SECRET
+      - key: PAYPAL_CLIENT_SECRET
+        type: SECRET
+      - key: PAYPAL_WEBHOOK_ID
+        type: SECRET
+      - key: PAYPAL_MODE
+        value: live
+      - key: USE_SPACES
+        value: "True"
+      - key: SPACES_ACCESS_KEY
+        type: SECRET
+      - key: SPACES_SECRET_KEY
+        type: SECRET
+      - key: SPACES_BUCKET_NAME
+        value: growth-collective-assets
+      - key: SPACES_ENDPOINT_URL
+        value: https://lon1.digitaloceanspaces.com
+
+  - name: worker
+    source_dir: growth_collective
+    github:
+      repo: your-github-username/tgc-app
+      branch: master
+      deploy_on_push: true
+    build_command: pip install -r ../requirements.txt
+    run_command: python manage.py qcluster
+    environment_slug: python
+    instance_size_slug: basic-xxs
+    instance_count: 1
+    envs:
+      - key: DJANGO_SETTINGS_MODULE
+        value: config.settings.prod
+      - key: SECRET_KEY
+        type: SECRET
+      - key: DATABASE_URL
+        scope: RUN_TIME
+        value: ${your-db.DATABASE_URL}
+      - key: RESEND_API_KEY
+        type: SECRET
+
+jobs:
+  - name: migrate
+    source_dir: growth_collective
+    github:
+      repo: your-github-username/tgc-app
+      branch: master
+    run_command: python manage.py migrate && python manage.py setup_schedules
+    environment_slug: python
+    instance_size_slug: basic-xxs
+    kind: PRE_DEPLOY
+    envs:
+      - key: DJANGO_SETTINGS_MODULE
+        value: config.settings.prod
+      - key: SECRET_KEY
+        type: SECRET
+      - key: DATABASE_URL
+        scope: RUN_TIME
+        value: ${your-db.DATABASE_URL}

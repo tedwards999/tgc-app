@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Leaderboard — Growth Collective{% endblock %}
+
+{% block content %}
+<div class="container page-content">
+  <div class="page-header">
+    <h1>Leaderboard</h1>
+    <a href="{% url 'points:my_points' %}" class="btn btn--outline">My Points</a>
+  </div>
+
+  <div class="leaderboard">
+    {% for ranking in rankings %}
+    <div class="leaderboard-item {% if ranking.user == request.user %}leaderboard-item--you{% endif %}">
+      <span class="leaderboard-item__rank">{{ forloop.counter }}</span>
+      <div class="leaderboard-item__avatar">
+        {{ ranking.user.first_name|first }}{{ ranking.user.last_name|first }}
+      </div>
+      <div class="leaderboard-item__info">
+        <strong class="leaderboard-item__name">
+          {{ ranking.user.get_full_name }}
+          {% if ranking.user == request.user %}<span class="text-muted">(you)</span>{% endif %}
+        </strong>
+        <span class="badge badge--{{ ranking.tier }}">{{ ranking.tier|title }}</span>
+      </div>
+      <div class="leaderboard-item__points">
+        <span class="leaderboard-item__total">{{ ranking.total_points }}</span>
+        <span class="leaderboard-item__label">pts</span>
+      </div>
+    </div>
+    {% empty %}
+    <div class="empty-state">
+      <p>No rankings yet. Start participating to earn points!</p>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% if user_ranking and user_ranking not in rankings %}
+  <div class="leaderboard-you" style="margin-top: var(--space-6);">
+    <p>Your ranking is outside the top 50. Keep engaging to climb the board!</p>
+    <strong>Your total: {{ user_ranking.total_points }} pts ({{ user_ranking.tier|title }} tier)</strong>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

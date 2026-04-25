@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% load form_tags %}
+{% block title %}Post an Offer — Growth Collective{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 720px; padding: var(--space-10) var(--space-4);">
+
+  <div style="margin-bottom: var(--space-8);">
+    <p class="lp-eyebrow">The Collective Advantage</p>
+    <h1 class="section-title">Post an <em>Offer</em></h1>
+    <p class="section-sub">Share an exclusive deal with fellow members. Offers are reviewed before going live — usually within 24 hours.</p>
+  </div>
+
+  <div class="card" style="padding: var(--space-8);">
+    <form method="post" novalidate>
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+          <div class="alert alert--error" style="margin-bottom: var(--space-4);">{{ error }}</div>
+        {% endfor %}
+      {% endif %}
+
+      <div class="form-grid">
+        <div class="form-group {% if form.title.errors %}form-group--error{% endif %}" style="grid-column: 1 / -1;">
+          <label class="form-label" for="{{ form.title.id_for_label }}">Offer Title</label>
+          {{ form.title|add_class:"form-input" }}
+          {% for error in form.title.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
+        </div>
+
+        <div class="form-group {% if form.provider_name.errors %}form-group--error{% endif %}">
+          <label class="form-label" for="{{ form.provider_name.id_for_label }}">Provider / Company Name</label>
+          {{ form.provider_name|add_class:"form-input" }}
+          {% for error in form.provider_name.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
+        </div>
+
+        <div class="form-group {% if form.category.errors %}form-group--error{% endif %}">
+          <label class="form-label" for="{{ form.category.id_for_label }}">Category</label>
+          {{ form.category|add_class:"form-input" }}
+          {% for error in form.category.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
+        </div>
+
+        <div class="form-group {% if form.discount_headline.errors %}form-group--error{% endif %}" style="grid-column: 1 / -1;">
+          <label class="form-label" for="{{ form.discount_headline.id_for_label }}">Discount Headline</label>
+          <span class="form-hint">e.g. "20% off all plans for Growth Collective members"</span>
+          {{ form.discount_headline|add_class:"form-input" }}
+          {% for error in form.discount_headline.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
+        </div>
+
+        <div class="form-group {% if form.short_description.errors %}form-group--error{% endif %}" style="grid-column: 1 / -1;">
+          <label class="form-label" for="{{ form.short_description.id_for_label }}">Short Description</label>
+          <span class="form-hint">One or two sentences shown in the offer listing (max 300 characters).</span>
+          {{ form.short_description|add_class:"form-input" }}
+          {% for error in form.short_description.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
+        </div>
+
+        <div class="form-group {% if form.full_description.errors %}form-group--error{% endif %}" style="grid-column: 1 / -1;">
+          <label class="form-label" for="{{ form.full_description.id_for_label }}">Full Description</label>
+          {{ form.full_description|add_class:"form-input" }}
+          {% for error in form.full_description.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
+        </div>
+      </div>
+
+      <hr style="border: none; border-top: 1px solid var(--border); margin: var(--space-6) 0;">
+      <h3 style="font-size: 1rem; font-weight: 600; margin-bottom: var(--space-4);">Redemption Details</h3>
+
+      <div class="form-grid">
+        <div class="form-group {% if form.redemption_url.errors %}form-group--error{% endif %}">
+          <label class="form-label" for="{{ form.redemption_url.id_for_label }}">Redemption URL</label>
+          {{ form.redemption_url|add_class:"form-input" }}
+          {% for error in form.redemption_url.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
+        </div>
+
+        <div class="form-group {% if form.redemption_code.errors %}form-group--error{% endif %}">
+          <label class="form-label" for="{{ form.redemption_code.id_for_label }}">Promo Code <span style="color: var(--text-muted);">(optional)</span></label>
+          {{ form.redemption_code|add_class:"form-input" }}
+          {% for error in form.redemption_code.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
+        </div>
+
+        <div class="form-group {% if form.redemption_instructions.errors %}form-group--error{% endif %}" style="grid-column: 1 / -1;">
+          <label class="form-label" for="{{ form.redemption_instructions.id_for_label }}">Redemption Instructions <span style="color: var(--text-muted);">(optional)</span></label>
+          {{ form.redemption_instructions|add_class:"form-input" }}
+          {% for error in form.redemption_instructions.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
+        </div>
+
+        <div class="form-group {% if form.expires_at.errors %}form-group--error{% endif %}">
+          <label class="form-label" for="{{ form.expires_at.id_for_label }}">Expiry Date <span style="color: var(--text-muted);">(optional)</span></label>
+          {{ form.expires_at|add_class:"form-input" }}
+          {% for error in form.expires_at.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
+        </div>
+      </div>
+
+      <div class="form-actions" style="margin-top: var(--space-6); display: flex; gap: var(--space-3);">
+        <button type="submit" class="btn btn--gold">Submit for Review</button>
+        <a href="{% url 'offers:list' %}" class="btn btn--outline">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

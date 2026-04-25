@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Manage Availability — Growth Collective{% endblock %}
+
+{% block content %}
+<div class="container page-content">
+  <div class="page-header">
+    <h1>Manage Availability</h1>
+    <a href="{% url 'bookings:coach_availability' %}" class="btn btn--outline">← Back</a>
+  </div>
+
+  {% if slots %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Date & Time</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for slot in slots %}
+        <tr>
+          <td>{{ slot.time_range.lower|date:"l, j F Y H:i" }}</td>
+          <td><span class="badge badge--{% if slot.status == 'available' %}green{% elif slot.status == 'booked' %}orange{% else %}grey{% endif %}">{{ slot.status|title }}</span></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <div class="empty-state">
+      <p>No availability slots set. Contact admin to add slots.</p>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load allauth account form_tags %}
+{% block title %}Sign In — Growth Collective{% endblock %}
+{% block body_class %}auth-page{% endblock %}
+
+{% block content %}
+<div class="auth-layout">
+  <div class="auth-card">
+    <div class="auth-card__brand">
+      <a href="{% url 'core:landing' %}" class="auth-card__logo">Growth <em>Collective</em></a>
+    </div>
+    <h1 class="auth-card__title">Welcome back</h1>
+    <p class="auth-card__sub">Sign in to your account</p>
+
+    <form method="post" action="{% url 'account_login' %}" class="form">
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="form-group {% if field.errors %}form-group--error{% endif %}">
+          <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field|add_class:"form-input" }}
+          {% for error in field.errors %}
+            <span class="form-error">{{ error }}</span>
+          {% endfor %}
+        </div>
+      {% endfor %}
+      {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+          <div class="alert alert--error">{{ error }}</div>
+        {% endfor %}
+      {% endif %}
+      <div class="form-actions">
+        <button type="submit" class="btn btn--primary btn--full">Sign In</button>
+      </div>
+    </form>
+
+    <div class="auth-card__links">
+      <a href="{% url 'account_reset_password' %}">Forgot your password?</a>
+      <span>·</span>
+      <a href="{% url 'account_signup' %}">Create an account</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}{% endblock %}

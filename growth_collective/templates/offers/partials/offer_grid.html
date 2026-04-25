@@ -1,0 +1,38 @@
+{% if offers %}
+  <div class="grid-3">
+    {% for offer in offers %}
+    <div class="offer-card {% if not offer.user_can_access %}offer-card--locked{% endif %}">
+      {% if offer.is_featured %}
+        <div class="offer-card__badge">Featured</div>
+      {% endif %}
+      {% if offer.provider_logo %}
+        <img src="{{ offer.provider_logo.url }}" alt="{{ offer.provider_name }}" class="offer-card__logo">
+      {% else %}
+        <div class="offer-card__logo-placeholder">{{ offer.provider_name|first }}</div>
+      {% endif %}
+      <div class="offer-card__body">
+        <div class="offer-card__meta">
+          <span class="badge badge--outline">{{ offer.get_category_display }}</span>
+          {% if offer.is_premium %}<span class="badge badge--gold">Premium</span>{% endif %}
+        </div>
+        <h3 class="offer-card__title">{{ offer.title }}</h3>
+        <p class="offer-card__discount">{{ offer.discount_headline }}</p>
+        <p class="offer-card__desc">{{ offer.short_description }}</p>
+      </div>
+      <div class="offer-card__footer">
+        {% if offer.user_can_access %}
+          <a href="{% url 'offers:detail' offer_id=offer.pk %}" class="btn btn--primary btn--sm">View Offer</a>
+        {% else %}
+          <a href="{% url 'billing:pricing' %}" class="btn btn--outline btn--sm">
+            <span class="premium-lock__icon">🔒</span> Upgrade to Access
+          </a>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="empty-state">
+    <p>No offers available in this category.</p>
+  </div>
+{% endif %}
