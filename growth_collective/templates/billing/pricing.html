@@ -11,7 +11,7 @@
       <h1 style="font-family: var(--font-serif); font-size: clamp(2rem, 4vw, 3rem); color: var(--white); margin-bottom: var(--space-4);">
         Choose your <em style="color: var(--gold); font-style: italic;">plan</em>
       </h1>
-      <p style="color: rgba(255,255,255,0.6); font-size: 1.125rem;">Start free. Upgrade when you're ready.</p>
+      <p style="color: rgba(255,255,255,0.6); font-size: 1.125rem;">{% if user.is_authenticated %}Upgrade your membership to unlock more.{% else %}Start free. Upgrade when you're ready.{% endif %}</p>
     </div>
 
     {% if has_premium %}
@@ -69,6 +69,7 @@
       </div>
       {% empty %}
       <!-- Fallback static pricing if no plans in DB yet -->
+      {% if not user.is_authenticated %}
       <div class="pricing-card">
         <h2 class="pricing-card__name">Free Member</h2>
         <div class="pricing-card__price">
@@ -82,6 +83,7 @@
         </ul>
         <a href="{% url 'account_signup' %}" class="btn btn--outline-white btn--full">Join free</a>
       </div>
+      {% endif %}
       <div class="pricing-card pricing-card--popular">
         <div class="pricing-card__popular">Most Popular</div>
         <h2 class="pricing-card__name">Coaching</h2>
@@ -95,7 +97,11 @@
           <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Full brand asset library</li>
           <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Exclusive member offers</li>
         </ul>
-        <a href="{% url 'account_signup' %}" class="btn btn--gold btn--full">Get started</a>
+        {% if user.is_authenticated %}
+          <a href="{% url 'billing:dashboard' %}" class="btn btn--gold btn--full">Upgrade now</a>
+        {% else %}
+          <a href="{% url 'account_signup' %}" class="btn btn--gold btn--full">Get started</a>
+        {% endif %}
       </div>
       <div class="pricing-card">
         <h2 class="pricing-card__name">Business Growth</h2>
@@ -109,7 +115,11 @@
           <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Advanced resources</li>
           <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Founders' inner circle</li>
         </ul>
-        <a href="{% url 'account_signup' %}" class="btn btn--outline-white btn--full">Get started</a>
+        {% if user.is_authenticated %}
+          <a href="{% url 'billing:dashboard' %}" class="btn btn--outline-white btn--full">Upgrade now</a>
+        {% else %}
+          <a href="{% url 'account_signup' %}" class="btn btn--outline-white btn--full">Get started</a>
+        {% endif %}
       </div>
       {% endfor %}
     </div>

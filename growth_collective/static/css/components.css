@@ -391,7 +391,8 @@
 
 /* ── Pricing ── */
 .lp-pricing { padding: var(--space-24) 0; }
-.lp-pricing__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); margin-top: var(--space-4); }
+.lp-pricing__grid { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-6); margin-top: var(--space-4); }
+.lp-pricing__grid > * { flex: 1 1 280px; max-width: 380px; }
 
 /* Pricing card (on dark bg) */
 .pricing-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); padding: var(--space-8); position: relative; transition: var(--transition); }
@@ -675,7 +676,7 @@
   .lp-access__grid { grid-template-columns: repeat(2, 1fr); }
   .lp-values__grid { grid-template-columns: 1fr; }
   .lp-benefits__grid { grid-template-columns: 1fr; }
-  .lp-pricing__grid { grid-template-columns: 1fr; }
+  .lp-pricing__grid > * { max-width: 100%; }
   .lp-testimonials__grid { grid-template-columns: 1fr; }
   /* Footer */
   .footer__cols { grid-template-columns: 1fr 1fr; gap: var(--space-8); }
