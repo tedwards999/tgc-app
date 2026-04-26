@@ -10,7 +10,10 @@
 <header class="landing-nav">
   <div class="container">
     <div class="landing-nav__inner">
-      <a href="{% url 'core:landing' %}" class="landing-nav__logo">Growth <em>Collective</em></a>
+      <a href="{% url 'core:landing' %}" class="landing-nav__logo">
+        <img src="{% static 'img/logo.png' %}" alt="Growth Collective" class="nav__logo-img">
+        <span>Growth <em>Collective</em></span>
+      </a>
       <nav class="landing-nav__links">
         <a href="#features">Features</a>
         <a href="#benefits">Benefits</a>

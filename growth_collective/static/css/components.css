@@ -286,7 +286,7 @@
 /* ── Landing nav ── */
 .landing-nav { background: var(--navy); border-bottom: 1px solid rgba(255,255,255,0.08); position: sticky; top: 0; z-index: 100; }
 .landing-nav__inner { display: flex; align-items: center; justify-content: space-between; height: 4rem; gap: var(--space-8); }
-.landing-nav__logo { font-family: var(--font-serif); font-size: 1.25rem; color: var(--white); text-decoration: none; }
+.landing-nav__logo { display: flex; align-items: center; gap: var(--space-3); font-family: var(--font-serif); font-size: 1.25rem; color: var(--white); text-decoration: none; white-space: nowrap; }
 .landing-nav__logo em { color: var(--gold); font-style: italic; }
 .landing-nav__links { display: flex; gap: var(--space-8); }
 .landing-nav__links a { font-size: 0.875rem; color: rgba(255,255,255,0.7); transition: var(--transition); text-decoration: none; }
@@ -628,7 +628,8 @@
 .nav__dropdown-inner a { display: block; padding: var(--space-3) var(--space-4); font-size: 0.875rem; color: var(--navy); border-bottom: 1px solid var(--gray-light); transition: var(--transition); }
 .nav__dropdown-inner a:last-child { border-bottom: none; }
 .nav__dropdown-inner a:hover { background: var(--cream); color: var(--gold); }
-.nav__logo-text { font-family: var(--font-serif); font-size: 1.25rem; color: var(--white); }
+.nav__logo-text { font-family: var(--font-serif); font-size: 1.25rem; color: var(--white); white-space: nowrap; }
+.nav__logo-img { height: 40px; width: auto; display: inline-block; flex-shrink: 0; }
 .nav__points { display: flex; align-items: center; gap: var(--space-2); margin-right: var(--space-4); }
 .nav__points-count { font-size: 0.8125rem; color: rgba(255,255,255,0.7); }
 .nav__actions { display: flex; align-items: center; }

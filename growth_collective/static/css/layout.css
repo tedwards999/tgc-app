@@ -38,6 +38,7 @@
 
 .nav--landing { position: fixed; left: 0; right: 0; background: rgba(26,35,50,0.95); backdrop-filter: blur(8px); }
 
+.nav__logo { display: flex; align-items: center; gap: var(--space-3); text-decoration: none; }
 .nav__logo img { height: 2.5rem; width: auto; }
 
 .nav__links { display: flex; align-items: center; gap: var(--space-8); }
