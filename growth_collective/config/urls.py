@@ -16,6 +16,7 @@ urlpatterns = [
     path('offers/', include('apps.offers.urls')),
     path('points/', include('apps.points.urls')),
     path('pages/', include('apps.content.urls')),
+    path('articles/', include('apps.articles.urls')),
 ]
 
 if settings.DEBUG:

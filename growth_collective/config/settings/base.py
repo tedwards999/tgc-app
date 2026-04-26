@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'apps.content',
     'apps.notifications',
     'apps.core',
+    'apps.articles',
     'anymail',
 ]
 
