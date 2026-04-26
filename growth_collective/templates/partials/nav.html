@@ -20,6 +20,7 @@
       <li><a href="{% url 'referrals:board' %}" class="nav__link {% if request.resolver_match.namespace == 'referrals' %}nav__link--active{% endif %}">Deal Board</a></li>
       <li><a href="{% url 'offers:list' %}" class="nav__link {% if request.resolver_match.namespace == 'offers' %}nav__link--active{% endif %}">Offers</a></li>
       <li><a href="{% url 'brand_assets:library' %}" class="nav__link {% if request.resolver_match.namespace == 'brand_assets' %}nav__link--active{% endif %}">Resources</a></li>
+      <li><a href="{% url 'articles:list' %}" class="nav__link {% if request.resolver_match.namespace == 'articles' %}nav__link--active{% endif %}">Articles</a></li>
     </ul>
 
     <div class="nav__actions">
@@ -54,6 +55,7 @@
       <li><a href="{% url 'referrals:board' %}" class="nav__link">Deal Board</a></li>
       <li><a href="{% url 'offers:list' %}" class="nav__link">Offers</a></li>
       <li><a href="{% url 'brand_assets:library' %}" class="nav__link">Resources</a></li>
+      <li><a href="{% url 'articles:list' %}" class="nav__link">Articles</a></li>
     </ul>
     <div class="nav__mobile-actions">
       <a href="{% url 'accounts:profile' %}" class="nav__link">Profile</a>

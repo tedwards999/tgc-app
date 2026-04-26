@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ article.title }} — Growth Collective</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', Georgia, serif;
+      font-size: 11pt;
+      line-height: 1.7;
+      color: #333;
+      background: #fff;
+    }
+
+    .header {
+      background: #1a2332;
+      padding: 24px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header__logo {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 18pt;
+      color: #fff;
+    }
+
+    .header__logo em {
+      color: #d4a574;
+      font-style: italic;
+    }
+
+    .header__meta {
+      font-size: 9pt;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .content {
+      padding: 40px 40px 60px;
+    }
+
+    .category {
+      display: inline-block;
+      font-size: 9pt;
+      font-weight: 600;
+      color: #d4a574;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 26pt;
+      font-weight: 600;
+      color: #1a2332;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    .meta {
+      font-size: 9.5pt;
+      color: #888;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid #e0d9ce;
+    }
+
+    .cover {
+      width: 100%;
+      max-height: 260px;
+      object-fit: cover;
+      margin-bottom: 32px;
+      border-radius: 4px;
+    }
+
+    .body p {
+      margin-bottom: 14px;
+      text-align: justify;
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 12px 40px;
+      border-top: 1px solid #e0d9ce;
+      font-size: 8.5pt;
+      color: #aaa;
+      display: flex;
+      justify-content: space-between;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="header__logo">Growth <em>Collective</em></div>
+    <div class="header__meta">Member Article · bgcollective.co.uk</div>
+  </div>
+
+  <div class="content">
+    <span class="category">{{ article.category }}</span>
+    <h1>{{ article.title }}</h1>
+    <div class="meta">
+      By {{ article.author_name }} &nbsp;·&nbsp; {{ article.published_at|date:"F j, Y" }}
+    </div>
+
+    {% if article.cover_image %}
+    <img class="cover" src="{{ article.cover_image.url }}" alt="{{ article.title }}">
+    {% endif %}
+
+    <div class="body">
+      {{ article.body|linebreaks }}
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>© Growth Collective</span>
+    <span>{{ article.title }}</span>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Articles — Growth Collective{% endblock %}
+
+{% block content %}
+<div class="container page-content">
+
+  <div style="margin-bottom: var(--space-8);">
+    <h1 style="font-family: var(--font-serif); color: var(--navy); margin-bottom: var(--space-2);">
+      Member <em style="color: var(--gold); font-style: italic;">Articles</em>
+    </h1>
+    <p style="color: var(--slate); font-size: 1rem;">Insights, strategies and resources for growing your business.</p>
+  </div>
+
+  {% if categories %}
+  <div style="display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-8);">
+    <a href="{% url 'articles:list' %}"
+       class="badge {% if not active_category %}badge--navy{% else %}badge--outline{% endif %}"
+       style="text-decoration: none; padding: var(--space-1) var(--space-3); font-size: 0.8125rem; cursor: pointer;">
+      All
+    </a>
+    {% for cat in categories %}
+    <a href="?category={{ cat }}"
+       class="badge {% if active_category == cat %}badge--navy{% else %}badge--outline{% endif %}"
+       style="text-decoration: none; padding: var(--space-1) var(--space-3); font-size: 0.8125rem; cursor: pointer;">
+      {{ cat }}
+    </a>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if articles %}
+  <div class="article-grid">
+    {% for article in articles %}
+    <a href="{% url 'articles:detail' article.slug %}" class="article-card">
+      {% if article.cover_image %}
+      <div class="article-card__image">
+        <img src="{{ article.cover_image.url }}" alt="{{ article.title }}">
+      </div>
+      {% else %}
+      <div class="article-card__image article-card__image--placeholder"></div>
+      {% endif %}
+      <div class="article-card__body">
+        <span class="article-card__category">{{ article.category }}</span>
+        <h2 class="article-card__title">{{ article.title }}</h2>
+        <p class="article-card__excerpt">{{ article.excerpt }}</p>
+        <div class="article-card__meta">
+          <span class="article-card__author">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            {{ article.author_name }}
+          </span>
+          <span class="article-card__date">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            {{ article.published_at|date:"F j, Y" }}
+          </span>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="card" style="text-align: center; padding: var(--space-12);">
+    <p style="color: var(--slate); margin: 0;">No articles published yet. Check back soon.</p>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}
