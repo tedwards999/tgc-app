@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from django.db import models
 from .forms import ProfileForm
 
 
@@ -58,6 +59,18 @@ def dashboard(request):
     except Exception:
         top_contributors = []
 
+    lobby_messages = []
+    try:
+        from apps.chat.models import Message as ChatMessage
+        lobby_messages = list(
+            ChatMessage.objects.filter(room__slug='community', is_deleted=False)
+            .select_related('sender')
+            .order_by('-created_at')[:5]
+        )
+        lobby_messages.reverse()
+    except Exception:
+        pass
+
     try:
         from apps.referrals.models import MonthlyPromptCompletion
         from apps.referrals.models import MonthlyReferralPrompt
@@ -79,10 +92,64 @@ def dashboard(request):
         'ranking': ranking,
         'recent_activity': recent_activity,
         'top_contributors': top_contributors,
+        'lobby_messages': lobby_messages,
         'prompt': prompt,
         'prompt_completion': prompt_completion,
     }
     return render(request, 'accounts/dashboard.html', context)
+
+
+@login_required
+def member_directory(request):
+    from apps.accounts.models import User
+    query = request.GET.get('q', '').strip()
+    members = User.objects.filter(is_active=True).exclude(pk=request.user.pk).order_by('first_name', 'last_name')
+    if query:
+        members = members.filter(
+            models.Q(first_name__icontains=query) | models.Q(last_name__icontains=query)
+        )
+    return render(request, 'accounts/member_directory.html', {
+        'members': members,
+        'query': query,
+    })
+
+
+@login_required
+def start_dm(request, user_id):
+    from apps.accounts.models import User
+    from apps.chat.models import Room
+    other = get_object_or_404(User, pk=user_id, is_active=True)
+    if other == request.user:
+        return redirect('accounts:directory')
+
+    # Stable slug: always smaller ID first
+    uid1, uid2 = sorted([request.user.pk, other.pk])
+    slug = f'dm-{uid1}-{uid2}'
+
+    room, created = Room.objects.get_or_create(
+        slug=slug,
+        defaults={
+            'room_type': 'coaching',  # reuses coaching type for private rooms
+            'name': f'DM',
+            'is_active': True,
+        }
+    )
+    if created:
+        room.participants.set([request.user, other])
+
+    return redirect('chat:room', room_slug=slug)
+
+
+@login_required
+def dm_inbox(request):
+    rooms = request.user.dm_rooms.filter(is_active=True).prefetch_related('participants', 'messages')
+    inbox = []
+    for room in rooms:
+        other = room.participants.exclude(pk=request.user.pk).first()
+        last_msg = room.messages.filter(is_deleted=False).order_by('-created_at').first()
+        inbox.append({'room': room, 'other': other, 'last_msg': last_msg})
+    inbox.sort(key=lambda x: x['last_msg'].created_at if x['last_msg'] else x['room'].created_at, reverse=True)
+    return render(request, 'accounts/dm_inbox.html', {'inbox': inbox})
 
 
 @login_required

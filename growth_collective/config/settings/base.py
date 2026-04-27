@@ -11,6 +11,7 @@ SECRET_KEY = env('SECRET_KEY', default='change-me-in-production')
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,6 +41,8 @@ INSTALLED_APPS = [
     'apps.notifications',
     'apps.core',
     'apps.articles',
+    'apps.chat',
+    'channels',
     'anymail',
 ]
 
@@ -79,6 +82,13 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
+ASGI_APPLICATION = 'config.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}
 
 DATABASES = {
     'default': env.db('DATABASE_URL', default='postgres://localhost/growth_collective')

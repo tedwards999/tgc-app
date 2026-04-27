@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Messages — Growth Collective{% endblock %}
+
+{% block content %}
+<div class="container page-content" style="max-width: 680px;">
+
+  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-8);">
+    <h1 style="font-family: var(--font-serif); color: var(--navy);">
+      Your <em style="color: var(--gold); font-style: italic;">Messages</em>
+    </h1>
+    <a href="{% url 'accounts:directory' %}" class="btn btn--gold btn--sm">New Message</a>
+  </div>
+
+  {% if inbox %}
+  <div class="card" style="padding: 0; overflow: hidden;">
+    {% for item in inbox %}
+    <a href="{% url 'chat:room' item.room.slug %}" style="display: flex; align-items: center; gap: var(--space-4); padding: var(--space-5) var(--space-6); border-bottom: 1px solid var(--gray-light); text-decoration: none; transition: var(--transition);" onmouseover="this.style.background='var(--cream)'" onmouseout="this.style.background=''">
+      <div style="width: 2.75rem; height: 2.75rem; background: var(--navy); color: var(--white); font-size: 0.875rem; font-weight: 600; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+        {% if item.other %}{{ item.other.initials }}{% else %}??{% endif %}
+      </div>
+      <div style="flex: 1; min-width: 0;">
+        <p style="font-weight: 600; color: var(--navy); margin-bottom: 2px;">
+          {% if item.other %}{{ item.other.full_name }}{% else %}Unknown{% endif %}
+        </p>
+        <p style="font-size: 0.875rem; color: var(--slate); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+          {% if item.last_msg %}{{ item.last_msg.body }}{% else %}No messages yet{% endif %}
+        </p>
+      </div>
+      {% if item.last_msg %}
+      <span style="font-size: 0.75rem; color: var(--slate); flex-shrink: 0;">{{ item.last_msg.created_at|date:"j M" }}</span>
+      {% endif %}
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="card" style="text-align: center; padding: var(--space-12);">
+    <p style="color: var(--slate); margin-bottom: var(--space-4);">No conversations yet.</p>
+    <a href="{% url 'accounts:directory' %}" class="btn btn--gold">Find Members to Message</a>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

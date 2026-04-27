@@ -133,6 +133,40 @@
       </div>
       {% endif %}
 
+      <!-- Growth Collective Pulse Preview -->
+      <div class="card">
+        <div class="card__header">
+          <h2 style="font-family:var(--font-serif);font-size:1.5rem;color:var(--navy);">Growth Collective Pulse</h2>
+          <a href="{% url 'chat:room' 'community' %}" class="card__link">Open chat →</a>
+        </div>
+        {% if lobby_messages %}
+        <div style="display:flex;flex-direction:column;gap:var(--space-3);">
+          {% for msg in lobby_messages %}
+          <div style="display:flex;align-items:flex-start;gap:var(--space-3);padding:var(--space-3) 0;border-bottom:1px solid var(--gray-light);">
+            <div style="width:2rem;height:2rem;background:var(--navy);color:var(--white);font-size:0.6875rem;font-weight:600;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              {{ msg.sender.initials }}
+            </div>
+            <div style="flex:1;min-width:0;">
+              <div style="display:flex;align-items:baseline;gap:var(--space-3);margin-bottom:2px;">
+                <span style="font-weight:600;font-size:0.875rem;color:var(--navy);">{{ msg.sender.full_name }}</span>
+                <span style="font-size:0.75rem;color:var(--slate);">{{ msg.created_at|date:"j M, H:i" }}</span>
+              </div>
+              <p style="font-size:0.875rem;color:var(--gray);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ msg.body }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <div style="margin-top:var(--space-4);">
+          <a href="{% url 'chat:room' 'community' %}" class="btn btn--outline-navy btn--sm">Join the conversation</a>
+        </div>
+        {% else %}
+        <div style="text-align:center;padding:var(--space-8) 0;">
+          <p style="color:var(--gray);margin-bottom:var(--space-4);">No messages yet. Be the first to say hello!</p>
+          <a href="{% url 'chat:room' 'community' %}" class="btn btn--gold btn--sm">Start the conversation</a>
+        </div>
+        {% endif %}
+      </div>
+
     </div>
 
     <div class="dashboard-aside" style="display:flex;flex-direction:column;gap:var(--space-8);">

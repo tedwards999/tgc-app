@@ -17,6 +17,7 @@ urlpatterns = [
     path('points/', include('apps.points.urls')),
     path('pages/', include('apps.content.urls')),
     path('articles/', include('apps.articles.urls')),
+    path('chat/', include('apps.chat.urls')),
 ]
 
 if settings.DEBUG:

@@ -1,0 +1,21 @@
+import os
+from django.core.asgi import get_asgi_application
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.dev')
+
+# Must be called before importing channels/consumers
+django_asgi_app = get_asgi_application()
+
+from channels.routing import ProtocolTypeRouter, URLRouter
+from channels.security.websocket import AllowedHostsOriginValidator
+from apps.chat.middleware import SessionAuthMiddleware
+from apps.chat.routing import websocket_urlpatterns
+
+application = ProtocolTypeRouter({
+    'http': django_asgi_app,
+    'websocket': AllowedHostsOriginValidator(
+        SessionAuthMiddleware(
+            URLRouter(websocket_urlpatterns)
+        )
+    ),
+})

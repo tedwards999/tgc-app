@@ -20,7 +20,7 @@
 
   {% block extra_css %}{% endblock %}
 </head>
-<body class="{% block body_class %}{% endblock %}">
+<body class="{% block body_class %}{% endblock %}{% if user.is_authenticated %} has-sidebar{% endif %}">
 
   {% if user.is_authenticated %}
     {% include "partials/nav.html" %}

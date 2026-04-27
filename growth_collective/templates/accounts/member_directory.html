@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Member Directory — Growth Collective{% endblock %}
+
+{% block content %}
+<div class="container page-content">
+
+  <div style="margin-bottom: var(--space-8);">
+    <h1 style="font-family: var(--font-serif); color: var(--navy); margin-bottom: var(--space-2);">
+      Member <em style="color: var(--gold); font-style: italic;">Directory</em>
+    </h1>
+    <p style="color: var(--slate); font-size: 1rem;">Connect with fellow Growth Collective members.</p>
+  </div>
+
+  <form method="get" style="margin-bottom: var(--space-8); display: flex; gap: var(--space-3); max-width: 480px;">
+    <input type="text" name="q" value="{{ query }}" placeholder="Search by name…" class="form-input" style="flex: 1;">
+    <button type="submit" class="btn btn--gold">Search</button>
+    {% if query %}<a href="{% url 'accounts:directory' %}" class="btn btn--outline-navy">Clear</a>{% endif %}
+  </form>
+
+  {% if members %}
+  <div class="article-grid">
+    {% for member in members %}
+    <div class="card" style="display: flex; flex-direction: column; gap: var(--space-4);">
+      <div style="display: flex; align-items: center; gap: var(--space-4);">
+        <div style="width: 3rem; height: 3rem; background: var(--navy); color: var(--white); font-size: 1rem; font-weight: 600; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+          {{ member.initials }}
+        </div>
+        <div style="flex: 1; min-width: 0;">
+          <p style="font-weight: 600; color: var(--navy); margin-bottom: 2px;">{{ member.full_name }}</p>
+          <p style="font-size: 0.8125rem; color: var(--slate);">{{ member.get_role_display }}</p>
+        </div>
+        {% if member.has_premium_access %}
+        <span class="badge badge--gold" style="font-size: 0.75rem;">Premium</span>
+        {% endif %}
+      </div>
+      <a href="{% url 'accounts:start_dm' member.pk %}" class="btn btn--outline-navy btn--sm btn--full">
+        Message
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="card" style="text-align: center; padding: var(--space-12);">
+    <p style="color: var(--slate);">{% if query %}No members found for "{{ query }}".{% else %}No other members yet.{% endif %}</p>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}
