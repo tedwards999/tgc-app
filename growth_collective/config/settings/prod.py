@@ -13,6 +13,16 @@ SECURE_HSTS_PRELOAD = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
+_redis_url = env('REDIS_URL', default='')
+if _redis_url:
+    CHANNEL_LAYERS = {
+        'default': {
+            'BACKEND': 'channels_redis.core.RedisChannelLayer',
+            'CONFIG': {'hosts': [_redis_url]},
+        },
+    }
+# else: inherits InMemoryChannelLayer from base.py — fine for single-process deployments
+
 ANYMAIL = {
     'RESEND_API_KEY': env('RESEND_API_KEY', default=''),
 }

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ room.name }} — Growth Collective{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/chat.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-top: var(--space-8); padding-bottom: var(--space-8);">
+
+  <div style="margin-bottom: var(--space-6);">
+    {% if other %}
+    <a href="{% url 'accounts:dm_inbox' %}" style="color: var(--gold); text-decoration: none; font-size: 0.875rem;">← Back to Messages</a>
+    {% else %}
+    <a href="{% url 'accounts:dashboard' %}" style="color: var(--gold); text-decoration: none; font-size: 0.875rem;">← Back to Dashboard</a>
+    {% endif %}
+  </div>
+
+  <div class="chat" id="chat-root" data-room-slug="{{ room.slug }}">
+
+    <div class="chat__header">
+      <div>
+        <h1 class="chat__title">{% if other %}{{ other.full_name }}{% else %}{{ room.name }}{% endif %}</h1>
+        <p style="color: var(--slate); font-size: 0.875rem; margin-top: var(--space-1);">
+          {% if other %}Private conversation{% elif room.room_type == 'community' %}Open to all members · Messages are visible to everyone{% endif %}
+        </p>
+      </div>
+      <span id="chat-status" class="chat__status"></span>
+      <div class="chat__indicator" id="chat-indicator">
+        <span class="chat__dot"></span> Connecting…
+      </div>
+    </div>
+
+    <div class="chat__messages" id="chat-messages">
+      <div class="chat__empty" id="chat-empty">No messages yet. Say hello!</div>
+    </div>
+
+    <form class="chat__form" id="chat-form">
+      {% csrf_token %}
+      <input
+        type="text"
+        id="chat-input"
+        class="form-input chat__input"
+        placeholder="Type a message…"
+        maxlength="2000"
+        autocomplete="off"
+        disabled
+      >
+      <button type="submit" class="btn btn--gold" disabled id="chat-send">Send</button>
+    </form>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/chat.js' %}"></script>
+{% endblock %}
