@@ -73,6 +73,18 @@
     </li>
   </ul>
 
+  <!-- Tell a Friend -->
+  <div style="padding: var(--space-4) var(--space-5); border-top: 1px solid rgba(255,255,255,0.08); flex-shrink: 0;">
+    <button
+      id="referral-copy-btn"
+      data-referral-url="{{ request.scheme }}://{{ request.get_host }}/?ref={{ user.referral_token }}"
+      style="width: 100%; display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); background: var(--gold); color: var(--navy); border: none; border-radius: 6px; font-size: 0.875rem; font-weight: 600; cursor: pointer; font-family: var(--font-sans);"
+    >
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+      Tell a Friend
+    </button>
+    <p id="referral-copy-msg" style="display:none; font-size: 0.75rem; color: var(--gold); margin-top: var(--space-2); text-align: center;">Link copied!</p>
+  </div>
 
 </nav>
 
@@ -111,6 +123,19 @@
 <div class="sidebar__overlay" id="sidebar-overlay"></div>
 
 <script>
+  (function () {
+    var copyBtn = document.getElementById('referral-copy-btn');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', function () {
+        var url = copyBtn.getAttribute('data-referral-url');
+        navigator.clipboard.writeText(url).then(function () {
+          var msg = document.getElementById('referral-copy-msg');
+          if (msg) { msg.style.display = 'block'; setTimeout(function () { msg.style.display = 'none'; }, 2500); }
+        });
+      });
+    }
+  })();
+
   (function () {
     var toggle = document.getElementById('sidebar-toggle');
     var sidebar = document.getElementById('sidebar');
