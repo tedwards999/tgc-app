@@ -26,9 +26,10 @@
     {% include "partials/nav.html" %}
   {% endif %}
 
-  {% if messages %}
-    <div style="background: var(--cream);">
-      <div class="container" style="padding-top: var(--space-4); padding-bottom: var(--space-4);">
+  <main>
+    {% if messages %}
+    <div style="background: var(--cream); padding: var(--space-4) 0;">
+      <div class="container">
         {% for message in messages %}
           {% if 'error' in message.tags %}
             <div class="alert alert--red" style="border-radius: 6px; margin-bottom: var(--space-2);">{{ message }}</div>
@@ -42,9 +43,7 @@
         {% endfor %}
       </div>
     </div>
-  {% endif %}
-
-  <main>
+    {% endif %}
     {% block content %}{% endblock %}
   </main>
 
