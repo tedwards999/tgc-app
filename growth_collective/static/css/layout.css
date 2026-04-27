@@ -48,6 +48,7 @@
 }
 .sidebar__logo-img { height: 2rem; width: auto; flex-shrink: 0; }
 .sidebar__logo-text { font-family: var(--font-serif); font-size: 0.9375rem; color: var(--white); line-height: 1.2; }
+.sidebar__logo-text em { color: var(--gold); font-style: italic; }
 
 .sidebar__links {
   list-style: none;
