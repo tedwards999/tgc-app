@@ -12,6 +12,7 @@ ACTION_POINTS = {
     'offer_engaged': 5,
     'offer_converted': 15,
     'event_attended': 15,
+    'friend_joined': 50,
 }
 
 TIER_THRESHOLDS = [
