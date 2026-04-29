@@ -134,7 +134,8 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_UNIQUE_EMAIL = True
-LOGIN_REDIRECT_URL = '/dashboard/'
+ACCOUNT_ADAPTER = 'apps.accounts.adapter.AccountAdapter'
+LOGIN_REDIRECT_URL = '/billing/pricing/'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = '/accounts/login/'
 
@@ -165,6 +166,11 @@ PAYPAL_CLIENT_SECRET = env('PAYPAL_CLIENT_SECRET', default='')
 PAYPAL_WEBHOOK_ID = env('PAYPAL_WEBHOOK_ID', default='')
 PAYPAL_MODE = env('PAYPAL_MODE', default='sandbox')
 PAYPAL_API_BASE = 'https://api-m.sandbox.paypal.com' if PAYPAL_MODE == 'sandbox' else 'https://api-m.paypal.com'
+
+# Stripe
+STRIPE_PUBLIC_KEY = env('STRIPE_PUBLIC_KEY', default='')
+STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY', default='')
+STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET', default='')
 
 # DigitalOcean Spaces / S3
 USE_SPACES = env.bool('USE_SPACES', default=False)

@@ -12,7 +12,10 @@ from apps.notifications.email import send_referral_invite
 @login_required
 def deal_board(request):
     now = timezone.now()
-    referrals = Referral.objects.filter(is_published=True).select_related('referrer')
+    from django.db.models import Q
+    referrals = Referral.objects.filter(
+        Q(is_published=True) | Q(referral_type='external', referred_user=request.user)
+    ).select_related('referrer', 'referred_user')
 
     # Tag referrals this user has already engaged with
     engaged_ids = set(
@@ -59,32 +62,26 @@ def deal_board(request):
         'engaged_ids': engaged_ids,
         'prompt': prompt,
         'stats': stats,
-        'form': ReferralForm(),
+        'form': ReferralForm(current_user=request.user),
     })
 
 
 @login_required
 def submit_referral(request):
     if request.method == 'POST':
-        form = ReferralForm(request.POST)
+        form = ReferralForm(request.POST, current_user=request.user)
         if form.is_valid():
             referral = form.save(commit=False)
             referral.referrer = request.user
+            if referral.referral_type == 'external':
+                # Private lead — only visible to the chosen member
+                referral.is_published = False
             referral.save()
             award_points(request.user, 'referral_submitted', f'Submitted referral: {referral.title}')
-
-            if referral.referral_type == 'external' and referral.contact_email:
-                invite_url = request.build_absolute_uri(
-                    f'/?ref={request.user.referral_token}'
-                )
-                send_referral_invite(request.user, invite_url, referral.contact_email)
-                referral.invite_sent = True
-                referral.save(update_fields=['invite_sent'])
-
             messages.success(request, 'Your referral has been posted to the deal board.')
             return redirect('referrals:board')
     else:
-        form = ReferralForm()
+        form = ReferralForm(current_user=request.user)
 
     return render(request, 'referrals/submit_referral.html', {'form': form})
 

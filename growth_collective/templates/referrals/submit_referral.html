@@ -63,30 +63,15 @@
 
       </div>
 
-      <!-- External referral fields -->
+      <!-- Member picker (shown for "I have a lead for a member") -->
       <div id="external-fields">
         <hr style="border: none; border-top: 1px solid var(--border); margin: var(--space-6) 0;">
-        <h3 style="font-size: 1rem; font-weight: 600; margin-bottom: var(--space-4);">Contact Details</h3>
-        <div class="form-grid">
-
-          <div class="form-group {% if form.contact_name.errors %}form-group--error{% endif %}">
-            <label class="form-label" for="{{ form.contact_name.id_for_label }}">Contact Name</label>
-            {{ form.contact_name|add_class:"form-input" }}
-            {% for error in form.contact_name.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
-          </div>
-
-          <div class="form-group {% if form.contact_email.errors %}form-group--error{% endif %}">
-            <label class="form-label" for="{{ form.contact_email.id_for_label }}">Contact Email</label>
-            {{ form.contact_email|add_class:"form-input" }}
-            {% for error in form.contact_email.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
-          </div>
-
-          <div class="form-group {% if form.contact_company.errors %}form-group--error{% endif %}">
-            <label class="form-label" for="{{ form.contact_company.id_for_label }}">Company <span style="color: var(--text-muted);">(optional)</span></label>
-            {{ form.contact_company|add_class:"form-input" }}
-            {% for error in form.contact_company.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
-          </div>
-
+        <h3 style="font-size: 1rem; font-weight: 600; margin-bottom: var(--space-2);">Send this lead to a member</h3>
+        <p style="font-size: 0.875rem; color: var(--slate); margin-bottom: var(--space-4);">This lead will be sent privately — only the chosen member will see it.</p>
+        <div class="form-group {% if form.referred_user.errors %}form-group--error{% endif %}">
+          <label class="form-label" for="{{ form.referred_user.id_for_label }}">Choose a member</label>
+          {{ form.referred_user|add_class:"form-input" }}
+          {% for error in form.referred_user.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
         </div>
       </div>
 
