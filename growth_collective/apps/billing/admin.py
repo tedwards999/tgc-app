@@ -4,7 +4,7 @@ from .models import Plan, Subscription, Payment, WebhookEvent
 
 @admin.register(Plan)
 class PlanAdmin(admin.ModelAdmin):
-    list_display = ['name', 'price_monthly', 'currency', 'subscription_type', 'is_active', 'is_popular']
+    list_display = ['name', 'price_monthly', 'currency', 'subscription_type', 'stripe_price_id', 'is_active', 'is_popular']
     list_filter = ['is_active', 'currency']
     search_fields = ['name']
 

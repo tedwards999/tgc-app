@@ -69,33 +69,39 @@
       </div>
       {% empty %}
       <!-- Fallback static pricing if no plans in DB yet -->
-      {% if not user.is_authenticated %}
       <div class="pricing-card">
-        <h2 class="pricing-card__name">Free Member</h2>
+        <h2 class="pricing-card__name">Entry</h2>
+        <p class="pricing-card__tagline">Ideal for individuals seeking foundational insights and community engagement</p>
         <div class="pricing-card__price">
-          <span class="pricing-card__amount">£0</span>
+          <span class="pricing-card__amount">£38.99</span>
           <span class="pricing-card__period">/month</span>
         </div>
         <ul class="pricing-card__features">
-          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Deal Board access</li>
-          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Free events</li>
-          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Basic brand assets</li>
+          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Member-exclusive articles &amp; industry newsletter</li>
+          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Basic forum &amp; chat room access</li>
+          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Professional webinars &amp; events</li>
+          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Document downloads</li>
         </ul>
-        <a href="{% url 'account_signup' %}" class="btn btn--outline-white btn--full">Join free</a>
+        {% if user.is_authenticated %}
+          <a href="{% url 'billing:dashboard' %}" class="btn btn--outline-white btn--full">Get started</a>
+        {% else %}
+          <a href="{% url 'account_signup' %}" class="btn btn--outline-white btn--full">Get started</a>
+        {% endif %}
       </div>
-      {% endif %}
       <div class="pricing-card pricing-card--popular">
         <div class="pricing-card__popular">Most Popular</div>
         <h2 class="pricing-card__name">Coaching</h2>
+        <p class="pricing-card__tagline">Designed for professionals requiring deeper engagement and direct expert interaction</p>
         <div class="pricing-card__price">
-          <span class="pricing-card__amount">£97</span>
+          <span class="pricing-card__amount">£79.99</span>
           <span class="pricing-card__period">/month</span>
         </div>
         <ul class="pricing-card__features">
-          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>1 coaching session/month</li>
-          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Premium events &amp; training</li>
-          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Full brand asset library</li>
-          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Exclusive member offers</li>
+          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Everything in Entry</li>
+          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>1-on-1 business coaching session per month</li>
+          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Priority support &amp; exclusive premium webinars</li>
+          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Formalised training workshops</li>
+          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Enhanced networking opportunities</li>
         </ul>
         {% if user.is_authenticated %}
           <a href="{% url 'billing:dashboard' %}" class="btn btn--gold btn--full">Upgrade now</a>
@@ -104,16 +110,17 @@
         {% endif %}
       </div>
       <div class="pricing-card">
-        <h2 class="pricing-card__name">Business Growth</h2>
+        <h2 class="pricing-card__name">Executive</h2>
+        <p class="pricing-card__tagline">Full-service support with a dedicated monthly focus area for your business</p>
         <div class="pricing-card__price">
-          <span class="pricing-card__amount">£197</span>
+          <span class="pricing-card__amount">£554.99</span>
           <span class="pricing-card__period">/month</span>
         </div>
         <ul class="pricing-card__features">
-          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>2 coaching sessions/month</li>
-          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Dedicated account manager</li>
-          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Advanced resources</li>
-          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Founders' inner circle</li>
+          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Everything in Coaching</li>
+          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>1-on-1 executive account session per month</li>
+          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Weekly private coaching (4× per month)</li>
+          <li class="pricing-card__feature"><svg class="pricing-card__check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Choose one monthly focus: AI &amp; Analytics, Web &amp; Marketing, LinkedIn Outreach, or Accounting &amp; Business Support</li>
         </ul>
         {% if user.is_authenticated %}
           <a href="{% url 'billing:dashboard' %}" class="btn btn--outline-white btn--full">Upgrade now</a>

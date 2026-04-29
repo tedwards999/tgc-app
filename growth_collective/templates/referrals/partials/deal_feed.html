@@ -4,6 +4,9 @@
     <div class="deal-card">
       <div class="deal-card__header">
         <span class="badge badge--outline">{{ referral.get_referral_type_display }}</span>
+        {% if referral.referral_type == 'external' and referral.referred_user == request.user %}
+          <span class="badge badge--gold">For you</span>
+        {% endif %}
         <span class="badge badge--{% if referral.status == 'successful' %}green{% elif referral.status == 'engaged' %}blue{% else %}grey{% endif %}">
           {{ referral.get_status_display }}
         </span>

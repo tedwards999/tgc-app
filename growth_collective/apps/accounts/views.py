@@ -7,6 +7,8 @@ from .forms import ProfileForm
 
 @login_required
 def dashboard(request):
+    if not request.user.has_premium_access():
+        return redirect('/billing/pricing/')
     upcoming_booking = None
     upcoming_events = []
     ranking = None

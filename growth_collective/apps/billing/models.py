@@ -9,6 +9,7 @@ class Plan(models.Model):
     currency = models.CharField(max_length=3, default='GBP')
     features = models.JSONField(default=list)
     paypal_plan_id = models.CharField(max_length=100, blank=True)
+    stripe_price_id = models.CharField(max_length=100, blank=True)
     is_active = models.BooleanField(default=True)
     is_popular = models.BooleanField(default=False)
     subscription_type = models.CharField(max_length=20)  # maps to User.subscription_type

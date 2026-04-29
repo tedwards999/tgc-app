@@ -57,7 +57,61 @@
 
   <div class="dashboard-grid">
 
-    <div class="dashboard-main" style="display:flex;flex-direction:column;gap:var(--space-8);">
+    <!-- Row 1, Col 1: Growth Collective Pulse -->
+    <div class="card">
+      <div class="card__header">
+        <h2 style="font-family:var(--font-serif);font-size:1.5rem;color:var(--navy);">Growth Collective Pulse</h2>
+        <a href="{% url 'chat:room' 'community' %}" class="card__link">Open chat →</a>
+      </div>
+      {% if lobby_messages %}
+      <div style="display:flex;flex-direction:column;gap:var(--space-3);">
+        {% for msg in lobby_messages %}
+        <div style="display:flex;align-items:flex-start;gap:var(--space-3);padding:var(--space-3) 0;border-bottom:1px solid var(--gray-light);">
+          <div style="width:2rem;height:2rem;background:var(--navy);color:var(--white);font-size:0.6875rem;font-weight:600;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            {{ msg.sender.initials }}
+          </div>
+          <div style="flex:1;min-width:0;">
+            <div style="display:flex;align-items:baseline;gap:var(--space-3);margin-bottom:2px;">
+              <span style="font-weight:600;font-size:0.875rem;color:var(--navy);">{{ msg.sender.full_name }}</span>
+              <span style="font-size:0.75rem;color:var(--slate);">{{ msg.created_at|date:"j M, H:i" }}</span>
+            </div>
+            <p style="font-size:0.875rem;color:var(--gray);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ msg.body }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div style="margin-top:var(--space-4);">
+        <a href="{% url 'chat:room' 'community' %}" class="btn btn--outline-navy btn--sm">Join the conversation</a>
+      </div>
+      {% else %}
+      <div style="text-align:center;padding:var(--space-8) 0;">
+        <p style="color:var(--gray);margin-bottom:var(--space-4);">No messages yet. Be the first to say hello!</p>
+        <a href="{% url 'chat:room' 'community' %}" class="btn btn--gold btn--sm">Start the conversation</a>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Row 1, Col 2: Monthly Prompts — same grid row so heights match -->
+    <div style="background:linear-gradient(135deg,var(--navy),var(--navy-light));padding:var(--space-8);color:var(--white);">
+      <h3 style="font-size:1rem;font-weight:600;margin-bottom:var(--space-3);">Monthly Prompts</h3>
+      <p style="color:rgba(255,255,255,.75);font-size:.875rem;margin-bottom:var(--space-6);">Complete these actions to earn bonus points and stay engaged with the community.</p>
+      <div style="display:flex;flex-direction:column;gap:var(--space-3);">
+        {% for prompt in monthly_prompts %}
+        <div style="display:flex;align-items:center;gap:var(--space-3);font-size:.875rem;{% if not prompt.completed %}opacity:.5;{% endif %}">
+          {% if prompt.completed %}<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--gold);flex-shrink:0;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          {% else %}<div style="width:20px;height:20px;border:2px solid rgba(255,255,255,.3);border-radius:50%;flex-shrink:0;"></div>{% endif %}
+          <span>{{ prompt.prompt_text }}</span>
+        </div>
+        {% empty %}
+        <div style="display:flex;align-items:center;gap:var(--space-3);font-size:.875rem;opacity:.5;"><div style="width:20px;height:20px;border:2px solid rgba(255,255,255,.3);border-radius:50%;flex-shrink:0;"></div><span>Submit a referral to Deal Board</span></div>
+        <div style="display:flex;align-items:center;gap:var(--space-3);font-size:.875rem;opacity:.5;"><div style="width:20px;height:20px;border:2px solid rgba(255,255,255,.3);border-radius:50%;flex-shrink:0;"></div><span>Invite a new member</span></div>
+        <div style="display:flex;align-items:center;gap:var(--space-3);font-size:.875rem;opacity:.5;"><div style="width:20px;height:20px;border:2px solid rgba(255,255,255,.3);border-radius:50%;flex-shrink:0;"></div><span>Post an offer</span></div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Row 2, Col 1: Remaining main content -->
+    <div style="display:flex;flex-direction:column;gap:var(--space-8);">
 
       <!-- Next Coaching Session -->
       <div class="card">
@@ -133,62 +187,10 @@
       </div>
       {% endif %}
 
-      <!-- Growth Collective Pulse Preview -->
-      <div class="card">
-        <div class="card__header">
-          <h2 style="font-family:var(--font-serif);font-size:1.5rem;color:var(--navy);">Growth Collective Pulse</h2>
-          <a href="{% url 'chat:room' 'community' %}" class="card__link">Open chat →</a>
-        </div>
-        {% if lobby_messages %}
-        <div style="display:flex;flex-direction:column;gap:var(--space-3);">
-          {% for msg in lobby_messages %}
-          <div style="display:flex;align-items:flex-start;gap:var(--space-3);padding:var(--space-3) 0;border-bottom:1px solid var(--gray-light);">
-            <div style="width:2rem;height:2rem;background:var(--navy);color:var(--white);font-size:0.6875rem;font-weight:600;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-              {{ msg.sender.initials }}
-            </div>
-            <div style="flex:1;min-width:0;">
-              <div style="display:flex;align-items:baseline;gap:var(--space-3);margin-bottom:2px;">
-                <span style="font-weight:600;font-size:0.875rem;color:var(--navy);">{{ msg.sender.full_name }}</span>
-                <span style="font-size:0.75rem;color:var(--slate);">{{ msg.created_at|date:"j M, H:i" }}</span>
-              </div>
-              <p style="font-size:0.875rem;color:var(--gray);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ msg.body }}</p>
-            </div>
-          </div>
-          {% endfor %}
-        </div>
-        <div style="margin-top:var(--space-4);">
-          <a href="{% url 'chat:room' 'community' %}" class="btn btn--outline-navy btn--sm">Join the conversation</a>
-        </div>
-        {% else %}
-        <div style="text-align:center;padding:var(--space-8) 0;">
-          <p style="color:var(--gray);margin-bottom:var(--space-4);">No messages yet. Be the first to say hello!</p>
-          <a href="{% url 'chat:room' 'community' %}" class="btn btn--gold btn--sm">Start the conversation</a>
-        </div>
-        {% endif %}
-      </div>
-
     </div>
 
-    <div class="dashboard-aside" style="display:flex;flex-direction:column;gap:var(--space-8);">
-
-      <!-- Monthly Prompts -->
-      <div style="background:linear-gradient(135deg,var(--navy),var(--navy-light));padding:var(--space-8);color:var(--white);">
-        <h3 style="font-size:1rem;font-weight:600;margin-bottom:var(--space-3);">Monthly Prompts</h3>
-        <p style="color:rgba(255,255,255,.75);font-size:.875rem;margin-bottom:var(--space-6);">Complete these actions to earn bonus points and stay engaged with the community.</p>
-        <div style="display:flex;flex-direction:column;gap:var(--space-3);">
-          {% for prompt in monthly_prompts %}
-          <div style="display:flex;align-items:center;gap:var(--space-3);font-size:.875rem;{% if not prompt.completed %}opacity:.5;{% endif %}">
-            {% if prompt.completed %}<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--gold);flex-shrink:0;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            {% else %}<div style="width:20px;height:20px;border:2px solid rgba(255,255,255,.3);border-radius:50%;flex-shrink:0;"></div>{% endif %}
-            <span>{{ prompt.prompt_text }}</span>
-          </div>
-          {% empty %}
-          <div style="display:flex;align-items:center;gap:var(--space-3);font-size:.875rem;opacity:.5;"><div style="width:20px;height:20px;border:2px solid rgba(255,255,255,.3);border-radius:50%;flex-shrink:0;"></div><span>Submit a referral to Deal Board</span></div>
-          <div style="display:flex;align-items:center;gap:var(--space-3);font-size:.875rem;opacity:.5;"><div style="width:20px;height:20px;border:2px solid rgba(255,255,255,.3);border-radius:50%;flex-shrink:0;"></div><span>Invite a new member</span></div>
-          <div style="display:flex;align-items:center;gap:var(--space-3);font-size:.875rem;opacity:.5;"><div style="width:20px;height:20px;border:2px solid rgba(255,255,255,.3);border-radius:50%;flex-shrink:0;"></div><span>Post an offer</span></div>
-          {% endfor %}
-        </div>
-      </div>
+    <!-- Row 2, Col 2: Remaining aside content -->
+    <div style="display:flex;flex-direction:column;gap:var(--space-8);">
 
       <!-- Quick Actions -->
       <div class="card">

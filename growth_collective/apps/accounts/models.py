@@ -29,8 +29,9 @@ class User(AbstractUser):
     ]
     SUBSCRIPTION_TYPES = [
         ('free', 'Free'),
-        ('coaching', 'Coaching Plan'),
-        ('business_growth', 'Business Growth Plan'),
+        ('entry', 'Entry'),
+        ('coaching', 'Coaching'),
+        ('executive', 'Executive'),
     ]
     SUBSCRIPTION_STATUSES = [
         ('none', 'None'),
@@ -83,7 +84,7 @@ class User(AbstractUser):
         Checks subscription_type AND subscription_status.
         """
         return (
-            self.subscription_type in ('coaching', 'business_growth')
+            self.subscription_type in ('entry', 'coaching', 'executive')
             and self.subscription_status in ('active', 'cancelling', 'past_due')
         )
 
