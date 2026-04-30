@@ -1,5 +1,5 @@
 Django==5.1
-psycopg[binary]==3.2.3
+psycopg[binary]>=3.2.10
 django-environ==0.11
 django-allauth[mfa]==65.3
 django-htmx==1.21
