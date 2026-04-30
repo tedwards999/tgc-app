@@ -135,6 +135,7 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_ADAPTER = 'apps.accounts.adapter.AccountAdapter'
+ACCOUNT_SIGNUP_FORM_CLASS = 'apps.accounts.forms.SignupForm'
 LOGIN_REDIRECT_URL = '/billing/pricing/'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = '/accounts/login/'
