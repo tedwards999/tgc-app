@@ -10,7 +10,10 @@ django-anymail[resend]==12.0
 django-storages[s3]==1.14
 whitenoise==6.8
 gunicorn==23.0
+daphne==4.1
+channels==4.2
 requests==2.32
+stripe==11.4
 Pillow==11.0
 django-crispy-forms==2.3
 django-extensions==3.2

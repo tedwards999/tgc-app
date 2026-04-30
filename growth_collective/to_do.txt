@@ -1,0 +1,9 @@
+Promo code bypass feature
+=========================
+
+[ ] 1. Add PromoCode model to apps/billing/models.py
+[ ] 2. Create and apply migration
+[ ] 3. Register PromoCode in billing/admin.py
+[ ] 4. Create apps/accounts/forms.py with custom allauth signup form
+[ ] 5. Add ACCOUNT_SIGNUP_FORM_CLASS to settings
+[ ] 6. Update signup template to label promo code field correctly

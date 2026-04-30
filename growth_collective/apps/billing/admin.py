@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Plan, Subscription, Payment, WebhookEvent
+from .models import Plan, Subscription, Payment, WebhookEvent, PromoCode
 
 
 @admin.register(Plan)
@@ -25,6 +25,14 @@ class PaymentAdmin(admin.ModelAdmin):
     search_fields = ['user__email', 'provider_payment_id']
     raw_id_fields = ['user', 'subscription']
     readonly_fields = ['created_at']
+
+
+@admin.register(PromoCode)
+class PromoCodeAdmin(admin.ModelAdmin):
+    list_display = ['code', 'subscription_type', 'times_used', 'max_uses', 'expires_at', 'is_active', 'created_at']
+    list_filter = ['subscription_type', 'is_active']
+    search_fields = ['code']
+    readonly_fields = ['times_used', 'created_at']
 
 
 @admin.register(WebhookEvent)

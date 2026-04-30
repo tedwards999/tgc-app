@@ -68,6 +68,38 @@ class Payment(models.Model):
         return f'{self.user.email} £{self.amount} {self.status}'
 
 
+class PromoCode(models.Model):
+    SUBSCRIPTION_TYPES = [
+        ('entry', 'Entry'),
+        ('coaching', 'Coaching'),
+        ('executive', 'Executive'),
+    ]
+
+    code = models.CharField(max_length=50, unique=True)
+    subscription_type = models.CharField(max_length=20, choices=SUBSCRIPTION_TYPES)
+    max_uses = models.PositiveIntegerField(null=True, blank=True, help_text='Leave blank for unlimited')
+    times_used = models.PositiveIntegerField(default=0)
+    expires_at = models.DateTimeField(null=True, blank=True, help_text='Leave blank for no expiry')
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return self.code
+
+    def is_valid(self):
+        from django.utils import timezone
+        if not self.is_active:
+            return False
+        if self.max_uses is not None and self.times_used >= self.max_uses:
+            return False
+        if self.expires_at and timezone.now() > self.expires_at:
+            return False
+        return True
+
+
 class WebhookEvent(models.Model):
     provider = models.CharField(max_length=20, default='paypal')
     event_type = models.CharField(max_length=100)
