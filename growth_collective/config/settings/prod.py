@@ -1,8 +1,14 @@
 from .base import *
+import os
 import environ
 
 env = environ.Env()
 environ.Env.read_env()
+
+# Override ALLOWED_HOSTS using plain os.environ to avoid django-environ list parsing issues
+_allowed = os.environ.get('ALLOWED_HOSTS', '')
+if _allowed:
+    ALLOWED_HOSTS = [h.strip() for h in _allowed.split(',') if h.strip()]
 
 DEBUG = False
 
