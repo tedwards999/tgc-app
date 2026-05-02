@@ -33,7 +33,4 @@ if _redis_url:
     }
 # else: inherits InMemoryChannelLayer from base.py — fine for single-process deployments
 
-ANYMAIL = {
-    'RESEND_API_KEY': env('RESEND_API_KEY', default=''),
-}
-EMAIL_BACKEND = 'anymail.backends.resend.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
