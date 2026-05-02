@@ -69,21 +69,3 @@ services:
       - key: RESEND_API_KEY
         type: SECRET
 
-jobs:
-  - name: migrate
-    source_dir: growth_collective
-    github:
-      repo: your-github-username/tgc-app
-      branch: master
-    run_command: python manage.py migrate && python manage.py setup_schedules
-    environment_slug: python
-    instance_size_slug: basic-xxs
-    kind: PRE_DEPLOY
-    envs:
-      - key: DJANGO_SETTINGS_MODULE
-        value: config.settings.prod
-      - key: SECRET_KEY
-        type: SECRET
-      - key: DATABASE_URL
-        scope: RUN_TIME
-        value: ${your-db.DATABASE_URL}
