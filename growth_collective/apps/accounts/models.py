@@ -27,6 +27,21 @@ class User(AbstractUser):
         ('admin', 'Admin'),
         ('super_admin', 'Super Admin'),
     ]
+    INDUSTRY_CHOICES = [
+        ('accountancy_finance', 'Accountancy & Finance'),
+        ('construction_property', 'Construction & Property'),
+        ('creative_design', 'Creative & Design'),
+        ('education_training', 'Education & Training'),
+        ('food_hospitality', 'Food & Hospitality'),
+        ('health_wellness', 'Health & Wellness'),
+        ('legal_professional', 'Legal & Professional Services'),
+        ('manufacturing', 'Manufacturing'),
+        ('marketing_pr', 'Marketing & PR'),
+        ('retail_ecommerce', 'Retail & E-commerce'),
+        ('technology_software', 'Technology & Software'),
+        ('transport_logistics', 'Transport & Logistics'),
+        ('other', 'Other'),
+    ]
     SUBSCRIPTION_TYPES = [
         ('free', 'Free'),
         ('entry', 'Entry'),
@@ -52,6 +67,10 @@ class User(AbstractUser):
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='member')
     subscription_type = models.CharField(max_length=20, choices=SUBSCRIPTION_TYPES, default='free')
     subscription_status = models.CharField(max_length=20, choices=SUBSCRIPTION_STATUSES, default='none')
+
+    company_name = models.CharField(max_length=200, blank=True)
+    industry = models.CharField(max_length=30, choices=INDUSTRY_CHOICES, blank=True)
+    bio = models.CharField(max_length=140, blank=True)
 
     referral_token = models.CharField(max_length=64, unique=True, blank=True)
     referred_by = models.ForeignKey(

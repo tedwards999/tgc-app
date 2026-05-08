@@ -5,10 +5,18 @@ from .models import User
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name']
+        fields = ['first_name', 'last_name', 'company_name', 'industry', 'bio']
         widgets = {
             'first_name': forms.TextInput(attrs={'class': 'form-input'}),
             'last_name': forms.TextInput(attrs={'class': 'form-input'}),
+            'company_name': forms.TextInput(attrs={'class': 'form-input'}),
+            'industry': forms.Select(attrs={'class': 'form-input'}),
+            'bio': forms.TextInput(attrs={'class': 'form-input', 'maxlength': '140', 'placeholder': 'A short line about you or your business (140 chars max)'}),
+        }
+        labels = {
+            'company_name': 'Company Name',
+            'industry': 'Industry',
+            'bio': 'About You',
         }
 
 
