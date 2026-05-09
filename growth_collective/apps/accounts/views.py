@@ -105,14 +105,19 @@ def dashboard(request):
 def member_directory(request):
     from apps.accounts.models import User
     query = request.GET.get('q', '').strip()
+    industry = request.GET.get('industry', '').strip()
     members = User.objects.filter(is_active=True).exclude(pk=request.user.pk).order_by('first_name', 'last_name')
     if query:
         members = members.filter(
             models.Q(first_name__icontains=query) | models.Q(last_name__icontains=query)
         )
+    if industry:
+        members = members.filter(industry=industry)
     return render(request, 'accounts/member_directory.html', {
         'members': members,
         'query': query,
+        'active_industry': industry,
+        'industry_choices': User.INDUSTRY_CHOICES,
     })
 
 
