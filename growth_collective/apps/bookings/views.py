@@ -6,10 +6,10 @@ from django.http import HttpResponse
 
 from .models import Coach, AvailabilitySlot, Booking
 from .services import create_booking, BookingError
-from apps.core.decorators import require_premium
+from apps.core.decorators import require_coaching_plan
 
 
-@require_premium
+@require_coaching_plan
 def coaching_home(request):
     coaches = Coach.objects.filter(is_active=True).select_related('user')
     now = timezone.now()
@@ -34,7 +34,7 @@ def coaching_home(request):
     })
 
 
-@require_premium
+@require_coaching_plan
 def book_session(request):
     """HTMX: returns available slots for a selected coach."""
     coach_id = request.GET.get('coach_id')
@@ -55,7 +55,7 @@ def book_session(request):
     return render(request, 'bookings/coaching.html', {'coach': coach, 'slots': slots})
 
 
-@require_premium
+@require_coaching_plan
 def confirm_booking(request):
     if request.method != 'POST':
         return redirect('bookings:home')
