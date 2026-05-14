@@ -180,6 +180,7 @@ if USE_SPACES:
     AWS_SECRET_ACCESS_KEY = env('SPACES_SECRET_KEY')
     AWS_STORAGE_BUCKET_NAME = env('SPACES_BUCKET_NAME')
     AWS_S3_ENDPOINT_URL = env('SPACES_ENDPOINT_URL')
+    AWS_S3_ADDRESSING_STYLE = 'path'  # force path-style URLs (avoids bucket-in-subdomain DNS issues)
     AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
     AWS_QUERYSTRING_AUTH = True       # sign all file URLs
