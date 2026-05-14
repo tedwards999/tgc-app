@@ -19,10 +19,23 @@ def asset_library(request):
     if category:
         assets = assets.filter(category=category)
 
-    # Mark premium assets the user can't access
+    # Mark premium assets and generate preview URLs via Spaces if configured
     user_has_premium = request.user.has_premium_access()
+    use_spaces = getattr(settings, 'USE_SPACES', False)
     for asset in assets:
         asset.user_can_download = not asset.is_premium or user_has_premium
+        if asset.preview_image:
+            try:
+                if use_spaces:
+                    from storages.backends.s3boto3 import S3Boto3Storage
+                    storage = S3Boto3Storage()
+                    asset.preview_url = storage.url(asset.preview_image.name)
+                else:
+                    asset.preview_url = asset.preview_image.url
+            except Exception:
+                asset.preview_url = None
+        else:
+            asset.preview_url = None
 
     if request.htmx:
         return render(request, 'brand_assets/partials/asset_grid.html', {

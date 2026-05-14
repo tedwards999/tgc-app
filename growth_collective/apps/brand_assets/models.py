@@ -35,6 +35,14 @@ class BrandAsset(models.Model):
     def __str__(self):
         return f'{self.title} ({self.get_category_display()})'
 
+    def save(self, *args, **kwargs):
+        if self.file and self.file_size_bytes == 0:
+            try:
+                self.file_size_bytes = self.file.size
+            except Exception:
+                pass
+        super().save(*args, **kwargs)
+
     @property
     def is_premium(self):
         return self.access_level == 'premium_only'

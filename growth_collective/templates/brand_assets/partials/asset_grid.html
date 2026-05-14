@@ -2,8 +2,8 @@
   <div class="grid-3">
     {% for asset in assets %}
     <div class="asset-card {% if not asset.user_can_download %}asset-card--locked{% endif %}">
-      {% if asset.preview_image %}
-        <img src="{{ asset.preview_image.url }}" alt="{{ asset.title }}" class="asset-card__preview">
+      {% if asset.preview_url %}
+        <img src="{{ asset.preview_url }}" alt="{{ asset.title }}" class="asset-card__preview">
       {% else %}
         <div class="asset-card__preview-placeholder">{{ asset.get_category_display }}</div>
       {% endif %}
