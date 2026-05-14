@@ -93,7 +93,7 @@ def create_offer(request):
     if request.method == 'POST' and form.is_valid():
         offer = form.save(commit=False)
         offer.submitted_by = request.user
-        offer.is_active = False  # pending admin approval
+        offer.is_active = True
         offer.save()
         award_points(request.user, 'offer_posted', f'Submitted offer: {offer.title}')
         messages.success(request, 'Your offer has been submitted for review. We\'ll publish it shortly.')
