@@ -117,10 +117,18 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+STORAGES = {
+    'default': {
+        'BACKEND': 'django.core.files.storage.FileSystemStorage',
+    },
+    'staticfiles': {
+        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+    },
+}
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -180,8 +188,9 @@ if USE_SPACES:
     AWS_SECRET_ACCESS_KEY = env('SPACES_SECRET_KEY')
     AWS_STORAGE_BUCKET_NAME = env('SPACES_BUCKET_NAME')
     AWS_S3_ENDPOINT_URL = env('SPACES_ENDPOINT_URL')
+    AWS_S3_ADDRESSING_STYLE = 'path'  # force path-style URLs (avoids bucket-in-subdomain DNS issues)
     AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    STORAGES['default']['BACKEND'] = 'storages.backends.s3boto3.S3Boto3Storage'
     AWS_QUERYSTRING_AUTH = True       # sign all file URLs
     AWS_QUERYSTRING_EXPIRE = 300      # signed URLs expire after 5 minutes
 
