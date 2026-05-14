@@ -16,7 +16,7 @@
 .section--sm { padding: var(--space-16) 0; }
 
 /* Member page content area */
-.page-content { padding: var(--space-12) 0; }
+.page-content { padding-top: var(--space-12); padding-bottom: var(--space-12); }
 
 /* ── Landing nav (public pages only) ── */
 .nav--landing { position: fixed; left: 0; right: 0; background: rgba(26,35,50,0.95); backdrop-filter: blur(8px); z-index: 100; }
