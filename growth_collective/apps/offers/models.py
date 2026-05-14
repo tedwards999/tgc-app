@@ -40,7 +40,7 @@ class Offer(models.Model):
     )
 
     is_featured = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=False)  # admin approves before publishing
+    is_active = models.BooleanField(default=True)
     expires_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
