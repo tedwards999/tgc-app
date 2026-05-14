@@ -469,6 +469,7 @@
 
 /* Dashboard layout */
 .dashboard-grid { display: grid; grid-template-columns: 1fr 22rem; gap: var(--space-8); }
+.dashboard-grid > * { min-width: 0; }
 .dashboard-main {}
 .dashboard-aside {}
 
