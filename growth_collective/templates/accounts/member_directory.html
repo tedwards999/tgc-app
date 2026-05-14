@@ -32,7 +32,7 @@
           {{ member.initials }}
         </div>
         <div style="flex: 1; min-width: 0;">
-          <p style="font-weight: 600; color: var(--navy); margin-bottom: 2px;">{{ member.full_name }}</p>
+          <p style="font-weight: 600; color: var(--navy); margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ member.full_name }}</p>
           <p style="font-size: 0.8125rem; color: var(--slate); margin-bottom: 0;">
             {% if member.company_name %}{{ member.company_name }}{% if member.industry %} &middot; {% endif %}{% endif %}{% if member.industry %}{{ member.get_industry_display }}{% endif %}{% if not member.company_name and not member.industry %}{{ member.get_role_display }}{% endif %}
           </p>
