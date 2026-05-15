@@ -2,22 +2,22 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 
-from .models import Article
+from .models import Article, Category
 
 
 @login_required
 def article_list(request):
-    category = request.GET.get('category', '')
-    articles = Article.objects.filter(is_published=True)
-    if category:
-        articles = articles.filter(category__iexact=category)
+    category_id = request.GET.get('category', '')
+    articles = Article.objects.filter(is_published=True).select_related('category')
+    if category_id:
+        articles = articles.filter(category_id=category_id)
 
-    categories = Article.objects.filter(is_published=True).values_list('category', flat=True).distinct()
+    categories = Category.objects.all()
 
     return render(request, 'articles/article_list.html', {
         'articles': articles,
         'categories': categories,
-        'active_category': category,
+        'active_category': category_id,
     })
 
 

@@ -19,10 +19,10 @@
       All
     </a>
     {% for cat in categories %}
-    <a href="?category={{ cat }}"
-       class="badge {% if active_category == cat %}badge--navy{% else %}badge--outline{% endif %}"
+    <a href="?category={{ cat.pk }}"
+       class="badge {% if active_category == cat.pk|stringformat:'s' %}badge--navy{% else %}badge--outline{% endif %}"
        style="text-decoration: none; padding: var(--space-1) var(--space-3); font-size: 0.8125rem; cursor: pointer;">
-      {{ cat }}
+      {{ cat.name }}
     </a>
     {% endfor %}
   </div>
@@ -40,7 +40,7 @@
       <div class="article-card__image article-card__image--placeholder"></div>
       {% endif %}
       <div class="article-card__body">
-        <span class="article-card__category">{{ article.category }}</span>
+        <span class="article-card__category">{{ article.category.name }}</span>
         <h2 class="article-card__title">{{ article.title }}</h2>
         <p class="article-card__excerpt">{{ article.excerpt }}</p>
         <div class="article-card__meta">

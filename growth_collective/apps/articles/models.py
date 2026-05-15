@@ -2,10 +2,21 @@ from django.db import models
 from django.utils.text import slugify
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+
+    class Meta:
+        ordering = ['name']
+        verbose_name_plural = 'categories'
+
+    def __str__(self):
+        return self.name
+
+
 class Article(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=220, unique=True, blank=True)
-    category = models.CharField(max_length=100)
+    category = models.ForeignKey(Category, null=True, blank=True, on_delete=models.SET_NULL, related_name='articles')
     excerpt = models.TextField(max_length=300)
     body = models.TextField()
     cover_image = models.ImageField(upload_to='articles/', blank=True, null=True)
