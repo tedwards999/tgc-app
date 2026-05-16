@@ -69,7 +69,6 @@ def dashboard(request):
             .select_related('sender')
             .order_by('-created_at')[:5]
         )
-        lobby_messages.reverse()
     except Exception:
         pass
 
