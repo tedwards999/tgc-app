@@ -106,7 +106,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 'sender_initials': m.sender.initials if m.sender else '??',
                 'timestamp': m.created_at.isoformat(),
             }
-            for m in reversed(messages)
+            for m in messages
         ]
 
     @database_sync_to_async

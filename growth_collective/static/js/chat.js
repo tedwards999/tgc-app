@@ -55,12 +55,11 @@
         emptyEl.remove();
         emptyEl = null;
       }
-      appendMessage(data);
+      prependMessage(data);
     }
-    scrollToBottom();
   };
 
-  function appendMessage(msg) {
+  function buildMessageEl(msg) {
     var el = document.createElement('div');
     el.className = 'chat-message';
     el.dataset.messageId = msg.message_id;
@@ -73,11 +72,15 @@
         '</div>' +
         '<p class="chat-message__text">' + escapeHtml(msg.body) + '</p>' +
       '</div>';
-    messagesEl.appendChild(el);
+    return el;
   }
 
-  function scrollToBottom() {
-    messagesEl.scrollTop = messagesEl.scrollHeight;
+  function appendMessage(msg) {
+    messagesEl.appendChild(buildMessageEl(msg));
+  }
+
+  function prependMessage(msg) {
+    messagesEl.insertBefore(buildMessageEl(msg), messagesEl.firstChild);
   }
 
   function formatTime(iso) {
