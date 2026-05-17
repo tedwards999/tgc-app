@@ -214,4 +214,5 @@
   .topbar__hamburger { display: flex; }
   .topbar__logo { display: flex; }
   .has-sidebar main { margin-left: 0; }
+  .nav__hamburger { display: flex; }
 }
