@@ -19,6 +19,15 @@
   <link rel="stylesheet" href="{% static 'css/utilities.css' %}">
 
   {% block extra_css %}{% endblock %}
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3032M6Y7BQ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-3032M6Y7BQ');
+  </script>
 </head>
 <body class="{% block body_class %}{% endblock %}{% if user.is_authenticated %} has-sidebar{% endif %}">
 
