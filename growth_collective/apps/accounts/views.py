@@ -105,7 +105,19 @@ def member_directory(request):
     from apps.accounts.models import User
     query = request.GET.get('q', '').strip()
     industry = request.GET.get('industry', '').strip()
-    members = User.objects.filter(is_active=True).exclude(pk=request.user.pk).order_by('first_name', 'last_name')
+    from django.db.models import Case, When, IntegerField, Value
+    members = (
+        User.objects.filter(is_active=True)
+        .exclude(pk=request.user.pk)
+        .annotate(
+            has_profile=Case(
+                When(company_name='', then=Value(0)),
+                default=Value(1),
+                output_field=IntegerField(),
+            )
+        )
+        .order_by('-has_profile', 'first_name', 'last_name')
+    )
     if query:
         members = members.filter(
             models.Q(first_name__icontains=query) | models.Q(last_name__icontains=query)
