@@ -6,7 +6,9 @@ def landing(request):
     if request.user.is_authenticated:
         from django.shortcuts import redirect
         return redirect('accounts:dashboard')
-    return render(request, 'core/landing.html')
+    from apps.billing.models import Plan
+    plans = Plan.objects.filter(is_active=True)
+    return render(request, 'core/landing.html', {'plans': plans})
 
 
 def styleguide(request):
