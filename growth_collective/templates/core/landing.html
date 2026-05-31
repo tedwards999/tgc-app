@@ -306,94 +306,27 @@
     </div>
     <div class="lp-pricing__grid">
 
-      <div class="pricing-card">
-        <div class="pricing-card__name">Entry</div>
-        <div class="pricing-card__tagline">Ideal for individuals seeking foundational insights and community engagement</div>
+      {% for plan in plans %}
+      <div class="pricing-card {% if plan.is_popular %}pricing-card--popular{% endif %}">
+        {% if plan.is_popular %}<div class="pricing-card__popular">Most Popular</div>{% endif %}
+        <div class="pricing-card__name">{{ plan.name }}</div>
         <div class="pricing-card__price">
-          <span class="pricing-card__amount">£38.99</span>
+          <span class="pricing-card__amount">£{{ plan.price_monthly }}</span>
           <span class="pricing-card__period">/month</span>
         </div>
+        {% if plan.features %}
         <ul class="pricing-card__features">
+          {% for feature in plan.features %}
           <li class="pricing-card__feature">
             <svg class="pricing-card__check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
-            Member-exclusive articles &amp; industry newsletter
+            {{ feature }}
           </li>
-          <li class="pricing-card__feature">
-            <svg class="pricing-card__check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
-            Basic forum &amp; chat room access
-          </li>
-          <li class="pricing-card__feature">
-            <svg class="pricing-card__check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
-            Professional webinars &amp; events
-          </li>
-          <li class="pricing-card__feature">
-            <svg class="pricing-card__check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
-            Document downloads
-          </li>
+          {% endfor %}
         </ul>
-        <a href="{% url 'account_signup' %}" class="btn btn--outline-white btn--full">Get started</a>
+        {% endif %}
+        <a href="{% url 'account_signup' %}" class="btn {% if plan.is_popular %}btn--gold{% else %}btn--outline-white{% endif %} btn--full">Get started</a>
       </div>
-
-      <div class="pricing-card pricing-card--popular">
-        <div class="pricing-card__popular">Most Popular</div>
-        <div class="pricing-card__name">Coaching</div>
-        <div class="pricing-card__tagline">Designed for professionals requiring deeper engagement and direct expert interaction</div>
-        <div class="pricing-card__price">
-          <span class="pricing-card__amount">£79.99</span>
-          <span class="pricing-card__period">/month</span>
-        </div>
-        <ul class="pricing-card__features">
-          <li class="pricing-card__feature">
-            <svg class="pricing-card__check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
-            Everything in Entry
-          </li>
-          <li class="pricing-card__feature">
-            <svg class="pricing-card__check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
-            1-on-1 business coaching session per month
-          </li>
-          <li class="pricing-card__feature">
-            <svg class="pricing-card__check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
-            Priority support &amp; exclusive premium webinars
-          </li>
-          <li class="pricing-card__feature">
-            <svg class="pricing-card__check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
-            Formalised training workshops
-          </li>
-          <li class="pricing-card__feature">
-            <svg class="pricing-card__check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
-            Enhanced networking opportunities
-          </li>
-        </ul>
-        <a href="{% url 'billing:pricing' %}" class="btn btn--gold btn--full">Start Coaching plan</a>
-      </div>
-
-      <div class="pricing-card">
-        <div class="pricing-card__name">Executive</div>
-        <div class="pricing-card__tagline">Full-service support with a dedicated monthly focus area for your business</div>
-        <div class="pricing-card__price">
-          <span class="pricing-card__amount">£554.99</span>
-          <span class="pricing-card__period">/month</span>
-        </div>
-        <ul class="pricing-card__features">
-          <li class="pricing-card__feature">
-            <svg class="pricing-card__check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
-            Everything in Coaching
-          </li>
-          <li class="pricing-card__feature">
-            <svg class="pricing-card__check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
-            1-on-1 executive account session per month
-          </li>
-          <li class="pricing-card__feature">
-            <svg class="pricing-card__check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
-            Weekly private coaching (4× per month)
-          </li>
-          <li class="pricing-card__feature">
-            <svg class="pricing-card__check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
-            Choose one focus area: AI/Analytics, Web &amp; Marketing, LinkedIn Outreach, or Accounting &amp; Business Support
-          </li>
-        </ul>
-        <a href="{% url 'billing:pricing' %}" class="btn btn--outline-white btn--full">Start Executive plan</a>
-      </div>
+      {% endfor %}
 
     </div>
   </div>
