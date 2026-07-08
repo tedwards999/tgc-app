@@ -72,6 +72,17 @@ def dashboard(request):
     except Exception:
         pass
 
+    social_links_messages = []
+    try:
+        from apps.chat.models import Message as ChatMessage
+        social_links_messages = list(
+            ChatMessage.objects.filter(room__slug='social-links', is_deleted=False)
+            .select_related('sender')
+            .order_by('-created_at')[:5]
+        )
+    except Exception:
+        pass
+
     try:
         from apps.referrals.models import MonthlyPromptCompletion
         from apps.referrals.models import MonthlyReferralPrompt
@@ -94,6 +105,7 @@ def dashboard(request):
         'recent_activity': recent_activity,
         'top_contributors': top_contributors,
         'lobby_messages': lobby_messages,
+        'social_links_messages': social_links_messages,
         'prompt': prompt,
         'prompt_completion': prompt_completion,
     }
