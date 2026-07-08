@@ -104,11 +104,45 @@
         </div>
         {% empty %}
         <div style="display:flex;align-items:center;gap:var(--space-3);font-size:.875rem;opacity:.5;"><div style="width:20px;height:20px;border:2px solid rgba(255,255,255,.3);border-radius:50%;flex-shrink:0;"></div><span>Update your profile — use the menu in the top right</span></div>
+        <div style="display:flex;align-items:center;gap:var(--space-3);font-size:.875rem;opacity:.5;"><div style="width:20px;height:20px;border:2px solid rgba(255,255,255,.3);border-radius:50%;flex-shrink:0;"></div><span>Post a link in the Social Media Enhancement box</span></div>
         <div style="display:flex;align-items:center;gap:var(--space-3);font-size:.875rem;opacity:.5;"><div style="width:20px;height:20px;border:2px solid rgba(255,255,255,.3);border-radius:50%;flex-shrink:0;"></div><span>Submit a referral to Deal Board</span></div>
         <div style="display:flex;align-items:center;gap:var(--space-3);font-size:.875rem;opacity:.5;"><div style="width:20px;height:20px;border:2px solid rgba(255,255,255,.3);border-radius:50%;flex-shrink:0;"></div><span>Invite a new member</span></div>
         <div style="display:flex;align-items:center;gap:var(--space-3);font-size:.875rem;opacity:.5;"><div style="width:20px;height:20px;border:2px solid rgba(255,255,255,.3);border-radius:50%;flex-shrink:0;"></div><span>Post an offer</span></div>
         {% endfor %}
       </div>
+    </div>
+
+    <!-- Social Links — full width spanning both columns -->
+    <div class="card" style="grid-column: 1 / -1;">
+      <div class="card__header">
+        <div>
+          <h2 style="font-family:var(--font-serif);font-size:1.5rem;color:var(--navy);">Social Links — Beating the Algorithm Together</h2>
+          <p style="color:var(--gray);font-size:.875rem;margin-top:var(--space-2);">Post your social media link below. Remember to like and comment on at least <strong>five other members' links</strong> for every link you post — comments must be more than 5 words. Together we boost each other's visibility, reach new audiences, and grow.</p>
+        </div>
+        <a href="{% url 'chat:room' 'social-links' %}" class="btn btn--gold btn--sm" style="white-space:nowrap;flex-shrink:0;">Post your link →</a>
+      </div>
+      {% if social_links_messages %}
+      <div style="display:flex;flex-direction:column;gap:var(--space-3);margin-top:var(--space-4);">
+        {% for msg in social_links_messages %}
+        <div style="display:flex;align-items:flex-start;gap:var(--space-3);padding:var(--space-3) 0;border-bottom:1px solid var(--gray-light);">
+          <div style="width:2rem;height:2rem;background:var(--navy);color:var(--white);font-size:0.6875rem;font-weight:600;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            {{ msg.sender.initials }}
+          </div>
+          <div style="flex:1;min-width:0;">
+            <div style="display:flex;align-items:baseline;gap:var(--space-3);margin-bottom:2px;">
+              <span style="font-weight:600;font-size:0.875rem;color:var(--navy);">{{ msg.sender.full_name }}</span>
+              <span style="font-size:0.75rem;color:var(--slate);">{{ msg.created_at|date:"j M, H:i" }}</span>
+            </div>
+            <p style="font-size:0.875rem;color:var(--gray);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ msg.body }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div style="text-align:center;padding:var(--space-6) 0;margin-top:var(--space-4);">
+        <p style="color:var(--gray);margin-bottom:var(--space-4);">No links posted yet — be the first to share yours!</p>
+      </div>
+      {% endif %}
     </div>
 
     <!-- Row 2, Col 1: Remaining main content -->

@@ -25,3 +25,44 @@ Next steps before first deploy:
 - python manage.py createsuperuser
 - Create Plan records in /admin for billing
 - Set SITE_ID=1 record in Sites framework
+
+
+SOCIAL MEDIA ENHANCEMENT FEATURE
+=================================
+
+[ ] Step 1 — Create Social Links chat room (migration)
+    - New migration in apps/chat/migrations/0004_seed_social_links_room.py
+    - Seeds Room: slug='social-links', name='Social Links',
+      room_type='community', is_active=True, requires_premium=True
+    - Same pattern as 0002_seed_community_room.py
+
+[ ] Step 2 — Dashboard view: fetch social links messages
+    - In apps/accounts/views.py dashboard()
+    - Add try/except block fetching last 5 messages from slug='social-links'
+    - Add social_links_messages to context dict
+
+[ ] Step 3 — Dashboard template: Social Links widget
+    - In templates/accounts/dashboard.html
+    - New card: "Social Links — Beating the Algorithm Together"
+    - Blurb: post your link, like/comment on 5 others, comments must be 5+ words
+    - Show last 5 messages from the social-links room
+    - CTA button linking to /chat/social-links/
+
+[ ] Step 4 — Dashboard prompts: add social link item
+    - In templates/accounts/dashboard.html {% empty %} fallback
+    - Add: "Post a link in the Social Media Enhancement box"
+    - Listed after the existing "Update your profile" item
+
+[ ] Step 5 — Landing page: Social Media section
+    - In templates/core/landing.html
+    - New section with headline + "let's beat the algorithm together"
+    - Three benefit points: increases exposure, identifies leads/opportunities,
+      grows reach through collective social engagement
+    - Styled with existing lp-* CSS classes
+
+[ ] Step 6 — Deal board: clarify purpose
+    - In templates/referrals/deal_board.html
+    - Add prominent callout banner at the top of the page
+    - Copy: "This is where you post projects or items you are looking to
+      purchase or procure. Please do not list items for sale here —
+      use the Offers section for that."
